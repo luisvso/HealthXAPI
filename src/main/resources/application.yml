@@ -1,0 +1,12 @@
+spring:
+    application:
+        name=Healthx
+
+    datasource:
+        url: jdbc:postgresql://localhost:5432/HealthX
+        username: postgres
+        password: postgres
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
