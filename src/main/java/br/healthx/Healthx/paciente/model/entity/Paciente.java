@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import br.healthx.Healthx.paciente.dto.PacienteDTO;
 import jakarta.annotation.Generated;
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,11 +21,22 @@ public class Paciente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Nonnull
     private LocalDate dataNascimento;
+
+    @Nonnull
     private String nome;
+
+    @Nonnull
     private String email;
+
+    @Nonnull
     private String telefone;
+
+    @Nonnull
     private String motivo;
+
+    @Nonnull
     private String observacoes;
 
     public Paciente() {
