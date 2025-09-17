@@ -26,8 +26,9 @@ public class PacienteController {
     }
 
     @PostMapping("/delete")
-    public Paciente delete(@RequestBody @Valid PacienteDTO dto) {
+    public String delete(@RequestBody @Valid PacienteDTO dto) {
         return pacienteService.delete(dto);
+        
     }
 
     @GetMapping("/one")

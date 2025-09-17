@@ -3,7 +3,6 @@ package br.healthx.Healthx.paciente.model.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.healthx.Healthx.paciente.dto.PacienteDTO;
@@ -34,9 +33,10 @@ public class PacienteService {
         return pacienteRepository.save(new Paciente(dto));
     }
 
-    public void delete(PacienteDTO dto) {
+    public String delete(PacienteDTO dto) {
         if (pacienteValidation.existId(dto))
             pacienteRepository.delete(new Paciente(dto));
+            return "User deletado";
     }
 
     public Paciente update(PacienteDTO dto) {
@@ -50,6 +50,7 @@ public class PacienteService {
     // public Paciente findName(PacienteDTO dto) {
     // }
 
-    // public Paciente findAll() {
-    // }
+    public List<Paciente> findAll() {
+        return pacienteRepository.findAll();
+    }
 }
