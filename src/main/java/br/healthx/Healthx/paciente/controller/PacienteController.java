@@ -46,4 +46,9 @@ public class PacienteController {
         return pacienteService.findAll();
     }
 
+    @GetMapping("/findNome")
+    public List<Paciente> findNome(@RequestBody @Valid String name){
+        return pacienteService.findByNome(name);
+    }
+
 }
