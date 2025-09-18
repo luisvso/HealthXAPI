@@ -47,8 +47,18 @@ public class PacienteService {
         return (pacienteValidation.existId(dto) ? pacienteRepository.findById(dto.id()).get() : null);
     }
 
-    // public Paciente findName(PacienteDTO dto) {
-    // }
+    public List<Paciente> findByNome(String nome){
+        List<Paciente> pacientes = pacienteRepository.findAll();
+        List<Paciente> nomeAchados = new ArrayList<Paciente>();
+
+        if(pacienteValidation.existName(nome)){
+            for (Paciente paciente : pacientes) {
+                if(nome.toLowerCase().equals(paciente.getNome().toLowerCase()))
+                nomeAchados.add(paciente);
+            }
+        }
+            return nomeAchados;
+    }
 
     public List<Paciente> findAll() {
         return pacienteRepository.findAll();
