@@ -28,7 +28,7 @@ public class PacienteController {
     @PostMapping("/delete")
     public String delete(@RequestBody @Valid PacienteDTO dto) {
         return pacienteService.delete(dto);
-        
+
     }
 
     @GetMapping("/one")
@@ -47,7 +47,7 @@ public class PacienteController {
     }
 
     @GetMapping("/findNome")
-    public List<Paciente> findNome(@RequestBody @Valid String name){
+    public List<Paciente> findNome(@RequestBody @Valid String name) {
         return pacienteService.findByNome(name);
     }
 
