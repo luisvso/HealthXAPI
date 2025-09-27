@@ -3,12 +3,12 @@ package br.healthx.Healthx.paciente.model.entity;
 import java.time.LocalDate;
 
 import br.healthx.Healthx.paciente.dto.PacienteDTO;
-import jakarta.annotation.Generated;
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,23 +21,35 @@ public class Paciente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Nonnull
+    @NotNull
     private LocalDate dataNascimento;
 
-    @Nonnull
+    @NotNull
     private String nome;
 
-    @Nonnull
+    @NotNull
     private String email;
 
-    @Nonnull
+    @NotNull
     private String telefone;
 
-    @Nonnull
-    private String motivo;
+    @NotNull
+    private String queixaInicial;
 
-    @Nonnull
+    @NotNull
     private String observacoes;
+
+    @ManyToOne
+    private Genero genero;
+
+    @NotNull
+    private String responsavel;
+
+    @NotNull
+    private String raca;
+
+    // @NotNull
+    // private Psicologo PsicologoId;
 
     public Paciente() {
     }
@@ -48,7 +60,7 @@ public class Paciente {
         this.nome = dto.nome();
         this.email = dto.email();
         this.telefone = dto.telefone();
-        this.motivo = dto.motivo();
+        this.queixaInicial = dto.queixaInicial();
         this.observacoes = dto.observacoes();
     }
 }
