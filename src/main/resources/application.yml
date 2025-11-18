@@ -1,12 +1,11 @@
 spring:
-    application:
-        name=Healthx
+  application: name=Healthx
 
-    datasource:
-        url: jdbc:postgresql://localhost:5432/HealthX
-        username: postgres
-        password: postgres
-    jpa:
-        hibernate:
-            ddl-auto: update
-        show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
