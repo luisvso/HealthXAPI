@@ -39,6 +39,7 @@ public class PacienteService {
 
     /// method for creating Paciente
     public ResponsePacienteDTO create(RequestPacienteDTO dto) {
+        pacienteValidation.validatingPatient(dto);
         Paciente paciente = pacienteMapper.toEntity(dto);
         paciente = pacienteRepository.save(paciente);
 
