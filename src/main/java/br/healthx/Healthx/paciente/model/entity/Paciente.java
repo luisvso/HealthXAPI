@@ -2,13 +2,12 @@ package br.healthx.Healthx.paciente.model.entity;
 
 import java.time.LocalDate;
 
-import org.springframework.cglib.core.Local;
-
 import br.healthx.Healthx.paciente.dto.RequestPacienteDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -24,6 +23,7 @@ public class Paciente {
     private Long id;
 
     @NotNull(message = "Your birth date should not be null")
+    @Email(message = "Invalid Email format")
     private String email;
 
     @NotNull(message = "Your name should not be null")
