@@ -29,5 +29,11 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+.env
+docker-compose.yml
 ### VS Code ###
 .vscode/
+
+
+## MISE-EN-PLACE ##
+mise.toml

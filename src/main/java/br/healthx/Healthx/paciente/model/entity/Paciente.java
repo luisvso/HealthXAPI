@@ -2,13 +2,14 @@ package br.healthx.Healthx.paciente.model.entity;
 
 import java.time.LocalDate;
 
-import br.healthx.Healthx.paciente.dto.PacienteDTO;
-import jakarta.annotation.Generated;
-import jakarta.annotation.Nonnull;
+import br.healthx.Healthx.paciente.dto.RequestPacienteDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,34 +22,41 @@ public class Paciente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Nonnull
-    private LocalDate dataNascimento;
-
-    @Nonnull
-    private String nome;
-
-    @Nonnull
+    @NotNull(message = "Your birth date should not be null")
+    @Email(message = "Invalid Email format")
     private String email;
 
-    @Nonnull
+    @NotNull(message = "Your name should not be null")
+    private LocalDate dataNascimento;
+
+    @NotNull(message = "This field should not be null")
+    private String name;
+
+    @NotNull(message = "This filed should not be null")
+    private Genero genero;
+
+    @NotNull
+    @Size(max = 15, message = "The phone number must hava at most 15 digits")
     private String telefone;
 
-    @Nonnull
-    private String motivo;
+    private String responsavel;
 
-    @Nonnull
-    private String observacoes;
+    @NotNull(message = "This field should not be null")
+    private Raca raca;
+
+    private LocalDate criadoEm;
 
     public Paciente() {
     }
 
-    public Paciente(PacienteDTO dto) {
-        this.id = dto.id();
-        this.dataNascimento = dto.dataNascimento();
-        this.nome = dto.nome();
+    public Paciente(RequestPacienteDTO dto) {
         this.email = dto.email();
+        this.dataNascimento = dto.dataNascimento();
+        this.name = dto.name();
+        this.genero = dto.genero();
         this.telefone = dto.telefone();
-        this.motivo = dto.motivo();
-        this.observacoes = dto.observacoes();
+        this.responsavel = dto.responsavel();
+        this.raca = dto.raca();
+        this.criadoEm = LocalDate.now();
     }
 }

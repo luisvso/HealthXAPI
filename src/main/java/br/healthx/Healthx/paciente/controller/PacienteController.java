@@ -1,13 +1,15 @@
 package br.healthx.Healthx.paciente.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import java.util.List;
 
-import br.healthx.Healthx.paciente.dto.PacienteDTO;
-import br.healthx.Healthx.paciente.model.entity.Paciente;
+import br.healthx.Healthx.paciente.dto.RequestPacienteDTO;
+import br.healthx.Healthx.paciente.dto.ResponsePacienteDTO;
 import br.healthx.Healthx.paciente.model.service.PacienteService;
 
 @RestController
@@ -20,35 +22,44 @@ public class PacienteController {
         this.pacienteService = pacienteService;
     }
 
-    @PostMapping("/add")
-    public Paciente add(@RequestBody @Valid PacienteDTO dto) {
-        return pacienteService.create(dto);
+    @PostMapping
+    public ResponseEntity<ResponsePacienteDTO> add(@RequestBody @Valid RequestPacienteDTO dto) {
+        ResponsePacienteDTO responsePacienteDTO = pacienteService.create(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responsePacienteDTO);
     }
 
-    @PostMapping("/delete")
-    public String delete(@RequestBody @Valid PacienteDTO dto) {
-        return pacienteService.delete(dto);
-        
+    // @PostMapping("/addAll")
+    // public ResponseEntity<List<Paciente>> addAll(@RequestBody @Valid
+    // List<PacienteDTO> dtos) {
+    // return ResponseEntity.ok(pacienteService.createListPaciente(dtos));
+    // }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        pacienteService.delete(id);
+
     }
 
-    @GetMapping("/one")
-    public Paciente findOne(@RequestBody @Valid PacienteDTO dto) {
-        return pacienteService.find(dto);
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponsePacienteDTO> findOne(@PathVariable Long id) {
+        ResponsePacienteDTO responsePacienteDTO = pacienteService.findById(id);
+        return ResponseEntity.ok(responsePacienteDTO);
     }
 
-    @PostMapping("/update")
-    public Paciente update(@RequestBody @Valid PacienteDTO dto) {
-        return pacienteService.update(dto);
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponsePacienteDTO> update(@RequestBody @Valid RequestPacienteDTO dto,
+            @PathVariable Long id) {
+        return ResponseEntity.ok(pacienteService.update(id, dto));
     }
 
-    @GetMapping("/findall")
-    public List<Paciente> findAll() {
-        return pacienteService.findAll();
+    @GetMapping
+    public ResponseEntity<List<ResponsePacienteDTO>> findAll() {
+        return ResponseEntity.ok(pacienteService.findAll());
     }
 
-    @GetMapping("/findNome")
-    public List<Paciente> findNome(@RequestBody @Valid String name){
-        return pacienteService.findByNome(name);
+    @GetMapping("/name/{name}")
+    public ResponseEntity<List<ResponsePacienteDTO>> findName(@PathVariable String name) {
+        return ResponseEntity.ok(pacienteService.findByName(name));
     }
 
 }
