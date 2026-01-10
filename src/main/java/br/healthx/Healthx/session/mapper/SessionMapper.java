@@ -1,0 +1,59 @@
+package br.healthx.Healthx.session.mapper;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Component;
+
+import br.healthx.Healthx.session.dto.SessionRequestDTO;
+import br.healthx.Healthx.session.dto.SessionResponseDTO;
+import br.healthx.Healthx.session.model.entity.Session;
+
+@Component
+public class SessionMapper {
+
+    public Session DtoToSession(SessionRequestDTO dto) {
+        Session ss = new Session();
+
+        ss.setStartDate(dto.startDate());
+        ss.setEndDate(dto.endDate());
+        ss.setPatient(dto.patient());
+        ss.setNotes(dto.notes());
+        ss.setStatus(dto.status());
+        ss.setSessionType(dto.sessionType());
+        ss.setSessionComplaint(dto.sessionComplaint());
+        ss.setPsychologist(dto.psychologist());
+
+        return ss;
+    }
+
+    public Session mapperUpateSession(Session session, SessionRequestDTO dto) {
+        session.setEndDate(dto.endDate());
+        session.setNotes(dto.notes());
+        session.setPatient(dto.patient());
+        session.setPsychologist(dto.psychologist());
+        session.setSessionComplaint(dto.sessionComplaint());
+        session.setSessionType(dto.sessionType());
+        session.setStartDate(dto.startDate());
+        session.setStatus(dto.status());
+
+        return session;
+    }
+
+    public SessionResponseDTO sessionToDTO(Session ss) {
+        SessionResponseDTO sessionResponseDTO = new SessionResponseDTO(ss.getId(), ss.getStartDate(), ss.getEndDate(),
+                ss.getPatient(), ss.getNotes(), ss.getStatus(), ss.getSessionType(), ss.getSessionComplaint(),
+                ss.getPsychologist());
+
+        return sessionResponseDTO;
+    }
+
+    public List<SessionResponseDTO> sessionToListDTO(List<Session> sessions) {
+
+        return sessions.stream()
+                .map(this::sessionToDTO)
+                .collect(Collectors.toList());
+
+    }
+
+}
