@@ -1,5 +1,6 @@
 package br.healthx.Healthx.session.model.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -8,6 +9,8 @@ import br.healthx.Healthx.session.dto.SessionRequestDTO;
 import br.healthx.Healthx.session.dto.SessionResponseDTO;
 import br.healthx.Healthx.session.mapper.SessionMapper;
 import br.healthx.Healthx.session.model.entity.Session;
+import br.healthx.Healthx.session.model.entity.SessionType;
+import br.healthx.Healthx.session.model.entity.Status;
 import br.healthx.Healthx.session.model.repository.SessionRepository;
 import br.healthx.Healthx.session.model.validation.SessionValidation;
 
@@ -55,6 +58,22 @@ public class SessionService {
 
     public List<SessionResponseDTO> findAllSessions() {
         return sessionMapper.sessionToListDTO(sessionRepository.findAll());
+    }
+
+    public List<SessionResponseDTO> findByStatus(Status status) {
+        return sessionMapper.sessionToListDTO(sessionRepository.findByStatus(status));
+    }
+
+    public List<SessionResponseDTO> findBySessionType(SessionType sessionType) {
+        return sessionMapper.sessionToListDTO(sessionRepository.findBySessionType(sessionType));
+    }
+
+    public List<SessionResponseDTO> findSessionByName(String name) {
+        return sessionMapper.sessionToListDTO(sessionRepository.findByPatient_NameContainingIgnoreCase(name));
+    }
+
+    public List<SessionResponseDTO> findByStartDate(LocalDate start, LocalDate end) {
+        return sessionMapper.sessionToListDTO(sessionRepository.findByStartDateBetween(start, end));
     }
 
 }

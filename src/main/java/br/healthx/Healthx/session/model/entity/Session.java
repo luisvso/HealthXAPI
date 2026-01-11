@@ -37,7 +37,6 @@ public class Session {
     @ManyToOne
     private Paciente patient;
 
-    @Lob
     private String notes;
 
     @Enumerated(EnumType.STRING)
