@@ -11,10 +11,13 @@ import br.healthx.Healthx.session.mapper.SessionMapper;
 import br.healthx.Healthx.session.model.entity.Session;
 import br.healthx.Healthx.session.model.entity.SessionType;
 import br.healthx.Healthx.session.model.entity.Status;
+import br.healthx.Healthx.session.model.exception.ResourceNotFoundException;
 import br.healthx.Healthx.session.model.repository.SessionRepository;
 import br.healthx.Healthx.session.model.validation.SessionValidation;
+import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class SessionService {
 
     private final SessionRepository sessionRepository;
@@ -41,9 +44,12 @@ public class SessionService {
 
     public SessionResponseDTO updateSession(Long id, SessionRequestDTO dto) {
         sessionValidation.validateSessionCreation(dto);
-        Session session = sessionRepository.findById(id).get();
+        Session session = sessionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Session not found with id: " + id));
 
-        return sessionMapper.sessionToDTO(sessionMapper.mapperUpateSession(session, dto));
+        session = sessionRepository.save(sessionMapper.mapperUpateSession(session, dto));
+
+        return sessionMapper.sessionToDTO(session);
     }
 
     public void deleteSession(Long id) {
@@ -51,7 +57,8 @@ public class SessionService {
     }
 
     public SessionResponseDTO findSession(Long id) {
-        Session session = sessionRepository.findById(id).get();
+        Session session = sessionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Session not found with id: " + id));
 
         return sessionMapper.sessionToDTO(session);
     }
