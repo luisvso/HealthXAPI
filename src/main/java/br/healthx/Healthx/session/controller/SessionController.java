@@ -1,7 +1,9 @@
 package br.healthx.Healthx.session.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import br.healthx.Healthx.session.dto.SessionRequestDTO;
 import br.healthx.Healthx.session.dto.SessionResponseDTO;
 import br.healthx.Healthx.session.model.service.SessionService;
+import br.healthx.Healthx.session.model.entity.SessionType;
+import br.healthx.Healthx.session.model.entity.Status;
 import jakarta.validation.Valid;
 
 @RestController
@@ -51,6 +55,30 @@ public class SessionController {
     @GetMapping
     public ResponseEntity<List<SessionResponseDTO>> findAll() {
         return ResponseEntity.ok(sessionService.findAllSessions());
+    }
+
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<SessionResponseDTO>> findByStatus(@PathVariable("status") Status status) {
+        return ResponseEntity.ok(sessionService.findByStatus(status));
+    }
+
+    @GetMapping("/sessionType/{session_type}")
+    public ResponseEntity<List<SessionResponseDTO>> findBySessionType(
+            @PathVariable("session_type") SessionType sessionType) {
+        return ResponseEntity.ok(sessionService.findBySessionType(sessionType));
+
+    }
+
+    @GetMapping("/name/{name}")
+    public ResponseEntity<List<SessionResponseDTO>> findSessionByPatientName(@PathVariable("name") String name) {
+        return ResponseEntity.ok(sessionService.findSessionByName(name));
+
+    }
+
+    @GetMapping("/start/{start}/end/{end}")
+    public ResponseEntity<List<SessionResponseDTO>> findByStartDate(@PathVariable("start") LocalDate start,
+            @PathVariable("end") LocalDate end) {
+        return ResponseEntity.ok(sessionService.findByStartDate(start, end));
     }
 
 }
