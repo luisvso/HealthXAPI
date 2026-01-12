@@ -2,8 +2,10 @@ package br.healthx.Healthx.session.model.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.healthx.Healthx.session.dto.SessionRequestDTO;
 import br.healthx.Healthx.session.dto.SessionResponseDTO;
@@ -14,10 +16,8 @@ import br.healthx.Healthx.session.model.entity.Status;
 import br.healthx.Healthx.session.model.exception.ResourceNotFoundException;
 import br.healthx.Healthx.session.model.repository.SessionRepository;
 import br.healthx.Healthx.session.model.validation.SessionValidation;
-import jakarta.transaction.Transactional;
 
 @Service
-@Transactional
 public class SessionService {
 
     private final SessionRepository sessionRepository;
@@ -31,6 +31,7 @@ public class SessionService {
         this.sessionValidation = sessionValidation;
     }
 
+    @Transactional(timeout = 10)
     public SessionResponseDTO createSession(SessionRequestDTO dto) {
 
         sessionValidation.validateSessionCreation(dto);
@@ -42,6 +43,7 @@ public class SessionService {
         return sessionMapper.sessionToDTO(session);
     }
 
+    @Transactional(timeout = 10)
     public SessionResponseDTO updateSession(Long id, SessionRequestDTO dto) {
         sessionValidation.validateSessionCreation(dto);
         Session session = sessionRepository.findById(id)
@@ -52,10 +54,15 @@ public class SessionService {
         return sessionMapper.sessionToDTO(session);
     }
 
-    public void deleteSession(Long id) {
+    @Transactional(timeout = 10)
+    public void deleteSession(Long id) throws NoSuchElementException {
+        if (!sessionValidation.ExistSessionId(id))
+            throw new NoSuchElementException("The Session of id : " + id + " does not exist");
         sessionRepository.deleteById(id);
+
     }
 
+    @Transactional(readOnly = true, timeout = 10)
     public SessionResponseDTO findSession(Long id) {
         Session session = sessionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Session not found with id: " + id));
@@ -63,22 +70,27 @@ public class SessionService {
         return sessionMapper.sessionToDTO(session);
     }
 
+    @Transactional(readOnly = true, timeout = 10)
     public List<SessionResponseDTO> findAllSessions() {
         return sessionMapper.sessionToListDTO(sessionRepository.findAll());
     }
 
+    @Transactional(readOnly = true, timeout = 10)
     public List<SessionResponseDTO> findByStatus(Status status) {
         return sessionMapper.sessionToListDTO(sessionRepository.findByStatus(status));
     }
 
+    @Transactional(readOnly = true, timeout = 10)
     public List<SessionResponseDTO> findBySessionType(SessionType sessionType) {
         return sessionMapper.sessionToListDTO(sessionRepository.findBySessionType(sessionType));
     }
 
+    @Transactional(readOnly = true, timeout = 10)
     public List<SessionResponseDTO> findSessionByName(String name) {
         return sessionMapper.sessionToListDTO(sessionRepository.findByPatient_NameContainingIgnoreCase(name));
     }
 
+    @Transactional(readOnly = true, timeout = 10)
     public List<SessionResponseDTO> findByStartDate(LocalDate start, LocalDate end) {
         return sessionMapper.sessionToListDTO(sessionRepository.findByStartDateBetween(start, end));
     }
