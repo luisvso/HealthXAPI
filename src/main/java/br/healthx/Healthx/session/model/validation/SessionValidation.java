@@ -14,6 +14,10 @@ public class SessionValidation {
         validateDates(dto);
     }
 
+    public boolean ExistSessionId(Long id) {
+        return (id == null);
+    }
+
     private void validateDates(SessionRequestDTO dto) {
         if (dto.startDate().isBefore(LocalDate.now()) || dto.endDate().isBefore(dto.startDate())) {
             throw new SessionDateException("The date is invalid");
