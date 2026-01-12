@@ -34,7 +34,7 @@ public class SessionService {
     @Transactional(timeout = 10)
     public SessionResponseDTO createSession(SessionRequestDTO dto) {
 
-        sessionValidation.validateSessionCreation(dto);
+        sessionValidation.validateSession(dto);
 
         Session session = sessionMapper.DtoToSession(dto);
 
@@ -45,7 +45,7 @@ public class SessionService {
 
     @Transactional(timeout = 10)
     public SessionResponseDTO updateSession(Long id, SessionRequestDTO dto) {
-        sessionValidation.validateSessionCreation(dto);
+        sessionValidation.validateSession(dto);
         Session session = sessionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Session not found with id: " + id));
 
@@ -64,6 +64,8 @@ public class SessionService {
 
     @Transactional(readOnly = true, timeout = 10)
     public SessionResponseDTO findSession(Long id) {
+        sessionValidation.validateFields(id);
+
         Session session = sessionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Session not found with id: " + id));
 
@@ -77,21 +79,29 @@ public class SessionService {
 
     @Transactional(readOnly = true, timeout = 10)
     public List<SessionResponseDTO> findByStatus(Status status) {
+        sessionValidation.validateFields(status);
+
         return sessionMapper.sessionToListDTO(sessionRepository.findByStatus(status));
     }
 
     @Transactional(readOnly = true, timeout = 10)
     public List<SessionResponseDTO> findBySessionType(SessionType sessionType) {
+        sessionValidation.validateFields(sessionType);
+
         return sessionMapper.sessionToListDTO(sessionRepository.findBySessionType(sessionType));
     }
 
     @Transactional(readOnly = true, timeout = 10)
     public List<SessionResponseDTO> findSessionByName(String name) {
+        sessionValidation.validateFields(name);
+
         return sessionMapper.sessionToListDTO(sessionRepository.findByPatient_NameContainingIgnoreCase(name));
     }
 
     @Transactional(readOnly = true, timeout = 10)
     public List<SessionResponseDTO> findByStartDate(LocalDate start, LocalDate end) {
+        sessionValidation.validateFields(start, end);
+
         return sessionMapper.sessionToListDTO(sessionRepository.findByStartDateBetween(start, end));
     }
 
