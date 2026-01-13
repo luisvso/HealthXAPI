@@ -1,6 +1,5 @@
 package br.healthx.Healthx.session.model.validation;
 
-import java.lang.reflect.Field;
 import java.time.LocalDate;
 
 import org.springframework.stereotype.Component;

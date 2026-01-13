@@ -1,8 +1,5 @@
 package br.healthx.Healthx.session.mapper;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +25,7 @@ public class SessionMapper {
         return ss;
     }
 
-    public Session mapperUpateSession(Session session, SessionRequestDTO dto) {
+    public Session mapperUpdateSession(Session session, SessionRequestDTO dto) {
         session.setEndDate(dto.endDate());
         session.setNotes(dto.notes());
         session.setPatient(dto.patient());
