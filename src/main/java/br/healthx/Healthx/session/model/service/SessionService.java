@@ -1,7 +1,6 @@
 package br.healthx.Healthx.session.model.service;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.data.domain.Page;
@@ -51,7 +50,7 @@ public class SessionService {
         Session session = sessionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Session not found with id: " + id));
 
-        session = sessionRepository.save(sessionMapper.mapperUpateSession(session, dto));
+        session = sessionRepository.save(sessionMapper.mapperUpdateSession(session, dto));
 
         return sessionMapper.sessionToDTO(session);
     }
@@ -66,7 +65,8 @@ public class SessionService {
 
     @Transactional(readOnly = true, timeout = 10)
     public SessionResponseDTO findSession(Long id) {
-        sessionValidation.validateFields(id);
+        if (sessionValidation.validateFields(id))
+            throw new ResourceNotFoundException("This Resource does not exit");
 
         Session session = sessionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Session not found with id: " + id));
@@ -88,28 +88,32 @@ public class SessionService {
 
     @Transactional(readOnly = true, timeout = 10)
     public Page<SessionResponseDTO> findByStatus(Status status, Pageable pageable) {
-        sessionValidation.validateFields(status);
+        if (sessionValidation.validateFields(status))
+            throw new ResourceNotFoundException("This Resource does not exit");
 
         return sessionMapper.sessionToListDTO(sessionRepository.findByStatus(status, pageable));
     }
 
     @Transactional(readOnly = true, timeout = 10)
     public Page<SessionResponseDTO> findBySessionType(SessionType sessionType, Pageable pageable) {
-        sessionValidation.validateFields(sessionType);
+        if (sessionValidation.validateFields(sessionType))
+            throw new ResourceNotFoundException("This Resource does not exit");
 
         return sessionMapper.sessionToListDTO(sessionRepository.findBySessionType(sessionType, pageable));
     }
 
     @Transactional(readOnly = true, timeout = 10)
     public Page<SessionResponseDTO> findSessionByName(String name, Pageable pageable) {
-        sessionValidation.validateFields(name);
+        if (sessionValidation.validateFields(name))
+            throw new ResourceNotFoundException("This Resource does not exit");
 
         return sessionMapper.sessionToListDTO(sessionRepository.findByPatient_NameContainingIgnoreCase(name, pageable));
     }
 
     @Transactional(readOnly = true, timeout = 10)
     public Page<SessionResponseDTO> findByStartDate(LocalDate start, LocalDate end, Pageable pageable) {
-        sessionValidation.validateFields(start, end);
+        if (sessionValidation.validateFields(start, end))
+            throw new ResourceNotFoundException("This Resource does not exit");
 
         return sessionMapper.sessionToListDTO(sessionRepository.findByStartDateBetween(start, end, pageable));
     }
