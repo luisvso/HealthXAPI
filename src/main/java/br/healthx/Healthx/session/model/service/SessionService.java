@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,36 +75,43 @@ public class SessionService {
     }
 
     @Transactional(readOnly = true, timeout = 10)
-    public List<SessionResponseDTO> findAllSessions() {
-        return sessionMapper.sessionToListDTO(sessionRepository.findAll());
+    public Page<SessionResponseDTO> findAllSessions(Pageable pageable) {
+
+        return sessionMapper.sessionToListDTO(sessionRepository.findAll(pageable));
+
+        // return sessionRepository
+        // .findAll(pageable)
+        // .map(sessionMapper::sessionToDTO);
+
+        // return sessionMapper.sessionToListDTO(sessionRepository.findAll(pageable));
     }
 
     @Transactional(readOnly = true, timeout = 10)
-    public List<SessionResponseDTO> findByStatus(Status status) {
+    public Page<SessionResponseDTO> findByStatus(Status status, Pageable pageable) {
         sessionValidation.validateFields(status);
 
-        return sessionMapper.sessionToListDTO(sessionRepository.findByStatus(status));
+        return sessionMapper.sessionToListDTO(sessionRepository.findByStatus(status, pageable));
     }
 
     @Transactional(readOnly = true, timeout = 10)
-    public List<SessionResponseDTO> findBySessionType(SessionType sessionType) {
+    public Page<SessionResponseDTO> findBySessionType(SessionType sessionType, Pageable pageable) {
         sessionValidation.validateFields(sessionType);
 
-        return sessionMapper.sessionToListDTO(sessionRepository.findBySessionType(sessionType));
+        return sessionMapper.sessionToListDTO(sessionRepository.findBySessionType(sessionType, pageable));
     }
 
     @Transactional(readOnly = true, timeout = 10)
-    public List<SessionResponseDTO> findSessionByName(String name) {
+    public Page<SessionResponseDTO> findSessionByName(String name, Pageable pageable) {
         sessionValidation.validateFields(name);
 
-        return sessionMapper.sessionToListDTO(sessionRepository.findByPatient_NameContainingIgnoreCase(name));
+        return sessionMapper.sessionToListDTO(sessionRepository.findByPatient_NameContainingIgnoreCase(name, pageable));
     }
 
     @Transactional(readOnly = true, timeout = 10)
-    public List<SessionResponseDTO> findByStartDate(LocalDate start, LocalDate end) {
+    public Page<SessionResponseDTO> findByStartDate(LocalDate start, LocalDate end, Pageable pageable) {
         sessionValidation.validateFields(start, end);
 
-        return sessionMapper.sessionToListDTO(sessionRepository.findByStartDateBetween(start, end));
+        return sessionMapper.sessionToListDTO(sessionRepository.findByStartDateBetween(start, end, pageable));
     }
 
 }
