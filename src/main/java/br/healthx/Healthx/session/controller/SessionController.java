@@ -4,6 +4,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.catalina.connector.Response;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.jaxb.SpringDataJaxb.PageRequestDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.healthx.Healthx.session.dto.SessionRequestDTO;
@@ -53,32 +59,72 @@ public class SessionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<SessionResponseDTO>> findAll() {
-        return ResponseEntity.ok(sessionService.findAllSessions());
+    public ResponseEntity<Page<SessionResponseDTO>> findAll(@RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
+            @RequestParam(name = "ascending", defaultValue = "true") boolean ascending) {
+
+        Sort sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return ResponseEntity.ok(sessionService.findAllSessions(pageable));
     }
 
     @GetMapping("/status/{status}")
-    public ResponseEntity<List<SessionResponseDTO>> findByStatus(@PathVariable("status") Status status) {
-        return ResponseEntity.ok(sessionService.findByStatus(status));
+    public ResponseEntity<Page<SessionResponseDTO>> findByStatus(@PathVariable("status") Status status,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            @RequestParam(name = "sortBy", defaultValue = "status") String sortBy,
+            @RequestParam(name = "ascending", defaultValue = "true") boolean ascending) {
+
+        Sort sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return ResponseEntity.ok(sessionService.findByStatus(status, pageable));
     }
 
     @GetMapping("/sessionType/{session_type}")
-    public ResponseEntity<List<SessionResponseDTO>> findBySessionType(
-            @PathVariable("session_type") SessionType sessionType) {
-        return ResponseEntity.ok(sessionService.findBySessionType(sessionType));
+    public ResponseEntity<Page<SessionResponseDTO>> findBySessionType(
+            @PathVariable("session_type") SessionType sessionType,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            @RequestParam(name = "sortBy", defaultValue = "sessionType") String sortBy,
+            @RequestParam(name = "ascending", defaultValue = "true") boolean ascending) {
+
+        Sort sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return ResponseEntity.ok(sessionService.findBySessionType(sessionType, pageable));
 
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<List<SessionResponseDTO>> findSessionByPatientName(@PathVariable("name") String name) {
-        return ResponseEntity.ok(sessionService.findSessionByName(name));
+    public ResponseEntity<Page<SessionResponseDTO>> findSessionByPatientName(@PathVariable("name") String name,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            @RequestParam(name = "sortBy", defaultValue = "name") String sortBy,
+            @RequestParam(name = "ascending", defaultValue = "true") boolean ascending) {
+
+        Sort sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return ResponseEntity.ok(sessionService.findSessionByName(name, pageable));
 
     }
 
     @GetMapping("/start/{start}/end/{end}")
-    public ResponseEntity<List<SessionResponseDTO>> findByStartDate(@PathVariable("start") LocalDate start,
-            @PathVariable("end") LocalDate end) {
-        return ResponseEntity.ok(sessionService.findByStartDate(start, end));
+    public ResponseEntity<Page<SessionResponseDTO>> findByStartDate(@PathVariable("start") LocalDate start,
+            @PathVariable("end") LocalDate end, @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            @RequestParam(name = "sortBy", defaultValue = "startDate") String sortBy,
+            @RequestParam(name = "ascending", defaultValue = "true") boolean ascending) {
+
+        Sort sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return ResponseEntity.ok(sessionService.findByStartDate(start, end, pageable));
     }
 
 }
