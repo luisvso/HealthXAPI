@@ -2,7 +2,6 @@ package br.healthx.Healthx.paciente.mapper;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;

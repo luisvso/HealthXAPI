@@ -1,7 +1,6 @@
 package br.healthx.Healthx.paciente.model.validation;
 
 import java.time.LocalDate;
-import java.util.regex.Pattern;
 
 import org.springframework.context.annotation.Configuration;
 
@@ -9,7 +8,6 @@ import br.healthx.Healthx.paciente.dto.RequestPacienteDTO;
 import br.healthx.Healthx.paciente.model.entity.Paciente;
 import br.healthx.Healthx.paciente.model.exception.EmailAlreadyExistsException;
 import br.healthx.Healthx.paciente.model.exception.InvalidBirthDateException;
-import br.healthx.Healthx.paciente.model.exception.InvalidEmailFormatException;
 import br.healthx.Healthx.paciente.model.exception.PacienteNotFoundException;
 import br.healthx.Healthx.paciente.model.repository.PacienteRepository;
 

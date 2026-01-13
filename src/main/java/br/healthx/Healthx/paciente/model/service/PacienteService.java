@@ -1,13 +1,8 @@
 package br.healthx.Healthx.paciente.model.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import com.sun.net.httpserver.Request;
 
 import br.healthx.Healthx.paciente.dto.RequestPacienteDTO;
 import br.healthx.Healthx.paciente.dto.ResponsePacienteDTO;
