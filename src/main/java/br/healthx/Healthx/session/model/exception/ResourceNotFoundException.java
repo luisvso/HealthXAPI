@@ -2,6 +2,6 @@ package br.healthx.Healthx.session.model.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {
-        super();
+        super(message);
     }
 }
