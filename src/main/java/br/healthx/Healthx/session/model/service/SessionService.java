@@ -17,7 +17,9 @@ import br.healthx.Healthx.session.model.entity.Status;
 import br.healthx.Healthx.session.model.exception.ResourceNotFoundException;
 import br.healthx.Healthx.session.model.repository.SessionRepository;
 import br.healthx.Healthx.session.model.validation.SessionValidation;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class SessionService {
 
@@ -35,11 +37,15 @@ public class SessionService {
     @Transactional(timeout = 10)
     public SessionResponseDTO createSession(SessionRequestDTO dto) {
 
+        log.info("Attempt to create an session");
+
         sessionValidation.validateSession(dto);
 
         Session session = sessionMapper.DtoToSession(dto);
 
         sessionRepository.save(session);
+
+        log.info("Session with ID: {} created sucessfully", session.getId());
 
         return sessionMapper.sessionToDTO(session);
     }
@@ -50,16 +56,26 @@ public class SessionService {
         Session session = sessionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Session not found with id: " + id));
 
+        log.info("Trying to update a session of id: {}", id);
+
         session = sessionRepository.save(sessionMapper.mapperUpdateSession(session, dto));
+
+        log.info("Session of id: {} updated sucessfully", id);
 
         return sessionMapper.sessionToDTO(session);
     }
 
     @Transactional(timeout = 10)
     public void deleteSession(Long id) throws NoSuchElementException {
-        if (!sessionValidation.ExistSessionId(id))
+        if (sessionValidation.ExistSessionId(id)) {
             throw new NoSuchElementException("The Session of id : " + id + " does not exist");
+        }
+
+        log.info("Trying to delete session of ID: {} ", id);
+
         sessionRepository.deleteById(id);
+
+        log.info("Session of ID: {} deleted sucessfully", id);
 
     }
 
@@ -71,11 +87,15 @@ public class SessionService {
         Session session = sessionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Session not found with id: " + id));
 
+        log.info("Trying to fetch a session with the ID: {} ", id);
+
         return sessionMapper.sessionToDTO(session);
     }
 
     @Transactional(readOnly = true, timeout = 10)
     public Page<SessionResponseDTO> findAllSessions(Pageable pageable) {
+
+        log.info("Trying to fetch all the sessions created");
 
         return sessionMapper.sessionToListDTO(sessionRepository.findAll(pageable));
 
@@ -91,6 +111,7 @@ public class SessionService {
         if (sessionValidation.validateFields(status))
             throw new ResourceNotFoundException("This Resource does not exit");
 
+        log.info("Trying to fetch A session by status {} ", status);
         return sessionMapper.sessionToListDTO(sessionRepository.findByStatus(status, pageable));
     }
 
@@ -99,6 +120,7 @@ public class SessionService {
         if (sessionValidation.validateFields(sessionType))
             throw new ResourceNotFoundException("This Resource does not exit");
 
+        log.info("Trying to fetch a session containing the sessionType: {}", sessionType);
         return sessionMapper.sessionToListDTO(sessionRepository.findBySessionType(sessionType, pageable));
     }
 
@@ -107,6 +129,7 @@ public class SessionService {
         if (sessionValidation.validateFields(name))
             throw new ResourceNotFoundException("This Resource does not exit");
 
+        log.info("Trying to fetch a session that contain the patient name: {} ", name);
         return sessionMapper.sessionToListDTO(sessionRepository.findByPatient_NameContainingIgnoreCase(name, pageable));
     }
 
@@ -115,6 +138,7 @@ public class SessionService {
         if (sessionValidation.validateFields(start, end))
             throw new ResourceNotFoundException("This Resource does not exit");
 
+        log.info("Trying to fetch Session that is between the startDate: {} and the endDate {}", start, end);
         return sessionMapper.sessionToListDTO(sessionRepository.findByStartDateBetween(start, end, pageable));
     }
 
