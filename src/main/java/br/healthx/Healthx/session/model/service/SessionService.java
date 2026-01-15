@@ -95,8 +95,9 @@ public class SessionService {
     @Transactional(readOnly = true, timeout = 10)
     public Page<SessionResponseDTO> findAllSessions(Pageable pageable) {
 
-        log.info("Trying to fetch all the sessions created");
+        log.info("SessionService:findAllSessions execution started");
 
+        log.debug("SessionService:findAllSession execution ended");
         return sessionMapper.sessionToListDTO(sessionRepository.findAll(pageable));
 
         // return sessionRepository
