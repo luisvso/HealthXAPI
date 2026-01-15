@@ -40,17 +40,18 @@ public class SessionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SessionResponseDTO> update(@PathVariable Long id, @RequestBody @Valid SessionRequestDTO dto) {
+    public ResponseEntity<SessionResponseDTO> update(@PathVariable("id") Long id,
+            @RequestBody @Valid SessionRequestDTO dto) {
         return ResponseEntity.ok(sessionService.updateSession(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable("id") Long id) {
         sessionService.deleteSession(id);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SessionResponseDTO> findOne(@PathVariable Long id) {
+    public ResponseEntity<SessionResponseDTO> findOne(@PathVariable("id") Long id) {
         return ResponseEntity.ok(sessionService.findSession(id));
     }
 
