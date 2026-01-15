@@ -52,11 +52,11 @@ public class SessionService {
 
     @Transactional(timeout = 10)
     public SessionResponseDTO updateSession(Long id, SessionRequestDTO dto) {
+        log.info("Trying to update a session of id: {}", id);
+
         sessionValidation.validateSession(dto);
         Session session = sessionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Session not found with id: " + id));
-
-        log.info("Trying to update a session of id: {}", id);
 
         session = sessionRepository.save(sessionMapper.mapperUpdateSession(session, dto));
 
@@ -67,11 +67,11 @@ public class SessionService {
 
     @Transactional(timeout = 10)
     public void deleteSession(Long id) throws NoSuchElementException {
+        log.info("Trying to delete session of ID: {} ", id);
+
         if (sessionValidation.ExistSessionId(id)) {
             throw new NoSuchElementException("The Session of id : " + id + " does not exist");
         }
-
-        log.info("Trying to delete session of ID: {} ", id);
 
         sessionRepository.deleteById(id);
 
@@ -81,8 +81,6 @@ public class SessionService {
 
     @Transactional(readOnly = true, timeout = 10)
     public SessionResponseDTO findSession(Long id) {
-        if (sessionValidation.validateFields(id))
-            throw new ResourceNotFoundException("This Resource does not exit");
 
         Session session = sessionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Session not found with id: " + id));
