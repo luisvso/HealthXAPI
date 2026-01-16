@@ -17,13 +17,17 @@ import br.healthx.Healthx.session.model.exception.ResourceNotFoundException;
 import br.healthx.Healthx.session.model.exception.SessionDateException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 
 // RestControllerAdvice combines ControllerAdvice + ResponseBody 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(SessionDateException.class)
     public ResponseEntity<ErrorResponse> handleSessionDate(SessionDateException ex, HttpServletRequest servletRequest) {
+
+        log.error("Exception Caught {}", ex.getMessage());
 
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.CONFLICT.value(),
@@ -40,6 +44,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException ex,
             HttpServletRequest httpServletRequest) {
 
+        log.error("Exception caught {} ", ex.getMessage());
+
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
                 HttpStatus.NOT_FOUND.getReasonPhrase(),
@@ -54,6 +60,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodNotValid(MethodArgumentNotValidException ex,
             HttpServletRequest httpServletRequest) {
+
+        log.error("Exception caught {} ", ex.getMessage());
 
         Map<String, String> fieldErrors = new HashMap<>();
 
@@ -75,6 +83,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleDataIntegridy(DataIntegrityViolationException ex,
             HttpServletRequest httpServletRequest) {
 
+        log.error("Exception caught {} ", ex.getMessage());
+
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.CONFLICT.value(),
                 HttpStatus.CONFLICT.getReasonPhrase(),
@@ -90,6 +100,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleConstraintViolation(ConstraintViolationException ex,
             HttpServletRequest htp) {
 
+        log.error("Exception caught {} ", ex.getMessage());
+
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.CONFLICT.value(),
                 HttpStatus.CONFLICT.getReasonPhrase(),
@@ -103,6 +115,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArguments(IllegalArgumentException ex, HttpServletRequest htp) {
+
+        log.error("Exception caught {} ", ex.getMessage());
 
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
@@ -119,6 +133,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception ex, HttpServletRequest httpServletRequest) {
+
+        log.error("Exception caught {} ", ex.getMessage());
 
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
