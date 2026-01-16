@@ -34,7 +34,7 @@ public class SessionService {
         this.sessionValidation = sessionValidation;
     }
 
-    @Transactional(timeout = 10)
+    @Transactional(timeout = 30)
     public SessionResponseDTO createSession(SessionRequestDTO dto) {
 
         log.info("Attempt to create an session");
@@ -45,12 +45,12 @@ public class SessionService {
 
         sessionRepository.save(session);
 
-        log.info("Session with ID: {} created sucessfully", session.getId());
+        log.info("Session with ID: {} created successfully", session.getId());
 
         return sessionMapper.sessionToDTO(session);
     }
 
-    @Transactional(timeout = 10)
+    @Transactional(timeout = 30)
     public SessionResponseDTO updateSession(Long id, SessionRequestDTO dto) {
         log.info("Trying to update a session of id: {}", id);
 
@@ -65,12 +65,12 @@ public class SessionService {
         return sessionMapper.sessionToDTO(session);
     }
 
-    @Transactional(timeout = 10)
+    @Transactional(timeout = 30)
     public void deleteSession(Long id) throws NoSuchElementException {
         log.info("Trying to delete session of ID: {} ", id);
 
         if (sessionValidation.ExistSessionId(id)) {
-            throw new NoSuchElementException("The Session of id : " + id + " does not exist");
+            throw new ResourceNotFoundException("The Session of id : " + id + " does not exist");
         }
 
         sessionRepository.deleteById(id);
@@ -79,7 +79,7 @@ public class SessionService {
 
     }
 
-    @Transactional(readOnly = true, timeout = 10)
+    @Transactional(readOnly = true, timeout = 15)
     public SessionResponseDTO findSession(Long id) {
 
         Session session = sessionRepository.findById(id)
@@ -90,40 +90,34 @@ public class SessionService {
         return sessionMapper.sessionToDTO(session);
     }
 
-    @Transactional(readOnly = true, timeout = 10)
+    @Transactional(readOnly = true, timeout = 15)
     public Page<SessionResponseDTO> findAllSessions(Pageable pageable) {
 
-        log.info("SessionService:findAllSessions execution started");
+        log.debug("SessionService:findAllSession fetching all session");
 
-        log.debug("SessionService:findAllSession execution ended");
         return sessionMapper.sessionToListDTO(sessionRepository.findAll(pageable));
 
-        // return sessionRepository
-        // .findAll(pageable)
-        // .map(sessionMapper::sessionToDTO);
-
-        // return sessionMapper.sessionToListDTO(sessionRepository.findAll(pageable));
     }
 
-    @Transactional(readOnly = true, timeout = 10)
+    @Transactional(readOnly = true, timeout = 15)
     public Page<SessionResponseDTO> findByStatus(Status status, Pageable pageable) {
         if (sessionValidation.validateFields(status))
-            throw new ResourceNotFoundException("This Resource does not exit");
+            throw new ResourceNotFoundException("This Resource does not exist");
 
         log.info("Trying to fetch A session by status {} ", status);
         return sessionMapper.sessionToListDTO(sessionRepository.findByStatus(status, pageable));
     }
 
-    @Transactional(readOnly = true, timeout = 10)
+    @Transactional(readOnly = true, timeout = 15)
     public Page<SessionResponseDTO> findBySessionType(SessionType sessionType, Pageable pageable) {
         if (sessionValidation.validateFields(sessionType))
-            throw new ResourceNotFoundException("This Resource does not exit");
+            throw new ResourceNotFoundException("This Resource does not exist");
 
         log.info("Trying to fetch a session containing the sessionType: {}", sessionType);
         return sessionMapper.sessionToListDTO(sessionRepository.findBySessionType(sessionType, pageable));
     }
 
-    @Transactional(readOnly = true, timeout = 10)
+    @Transactional(readOnly = true, timeout = 15)
     public Page<SessionResponseDTO> findSessionByName(String name, Pageable pageable) {
         if (sessionValidation.validateFields(name))
             throw new ResourceNotFoundException("This Resource does not exit");
@@ -132,7 +126,7 @@ public class SessionService {
         return sessionMapper.sessionToListDTO(sessionRepository.findByPatient_NameContainingIgnoreCase(name, pageable));
     }
 
-    @Transactional(readOnly = true, timeout = 10)
+    @Transactional(readOnly = true, timeout = 15)
     public Page<SessionResponseDTO> findByStartDate(LocalDate start, LocalDate end, Pageable pageable) {
         if (sessionValidation.validateFields(start, end))
             throw new ResourceNotFoundException("This Resource does not exit");
