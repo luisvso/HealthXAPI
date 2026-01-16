@@ -2,6 +2,10 @@ spring:
   application:
     name: Healthx
 
+  logging:
+    level:
+      br.healthX.Healthx: INFO
+
   config:
     import: optional:file:./.env[.properties]
 

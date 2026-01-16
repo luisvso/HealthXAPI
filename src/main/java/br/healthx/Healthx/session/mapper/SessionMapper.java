@@ -1,8 +1,6 @@
 package br.healthx.Healthx.session.mapper;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import br.healthx.Healthx.session.dto.SessionRequestDTO;
@@ -27,7 +25,7 @@ public class SessionMapper {
         return ss;
     }
 
-    public Session mapperUpateSession(Session session, SessionRequestDTO dto) {
+    public Session mapperUpdateSession(Session session, SessionRequestDTO dto) {
         session.setEndDate(dto.endDate());
         session.setNotes(dto.notes());
         session.setPatient(dto.patient());
@@ -48,11 +46,12 @@ public class SessionMapper {
         return sessionResponseDTO;
     }
 
-    public List<SessionResponseDTO> sessionToListDTO(List<Session> sessions) {
+    public Page<SessionResponseDTO> sessionToListDTO(Page<Session> sessions) {
 
-        return sessions.stream()
-                .map(this::sessionToDTO)
-                .collect(Collectors.toList());
+        return sessions.map(this::sessionToDTO);
+
+        // return sessions.stream()
+        // .map(this::sessionToDTO)
 
     }
 

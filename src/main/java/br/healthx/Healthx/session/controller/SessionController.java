@@ -1,9 +1,11 @@
 package br.healthx.Healthx.session.controller;
 
 import java.time.LocalDate;
-import java.util.List;
 
-import org.apache.catalina.connector.Response;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,9 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.healthx.Healthx.session.dto.SessionRequestDTO;
 import br.healthx.Healthx.session.dto.SessionResponseDTO;
-import br.healthx.Healthx.session.model.service.SessionService;
 import br.healthx.Healthx.session.model.entity.SessionType;
 import br.healthx.Healthx.session.model.entity.Status;
+import br.healthx.Healthx.session.model.service.SessionService;
 import jakarta.validation.Valid;
 
 @RestController
@@ -38,47 +40,62 @@ public class SessionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SessionResponseDTO> update(@PathVariable Long id, @RequestBody @Valid SessionRequestDTO dto) {
+    public ResponseEntity<SessionResponseDTO> update(@PathVariable("id") Long id,
+            @RequestBody @Valid SessionRequestDTO dto) {
         return ResponseEntity.ok(sessionService.updateSession(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable("id") Long id) {
         sessionService.deleteSession(id);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SessionResponseDTO> findOne(@PathVariable Long id) {
+    public ResponseEntity<SessionResponseDTO> findOne(@PathVariable("id") Long id) {
         return ResponseEntity.ok(sessionService.findSession(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<SessionResponseDTO>> findAll() {
-        return ResponseEntity.ok(sessionService.findAllSessions());
+    public ResponseEntity<Page<SessionResponseDTO>> findAll(
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+
+        // Sort sort = ascending ? Sort.by(sortBy).ascending() :
+        // Sort.by(sortBy).descending();
+        // Pageable pageable = PageRequest.of(page, size, sort);
+
+        return ResponseEntity.ok(sessionService.findAllSessions(pageable));
     }
 
     @GetMapping("/status/{status}")
-    public ResponseEntity<List<SessionResponseDTO>> findByStatus(@PathVariable("status") Status status) {
-        return ResponseEntity.ok(sessionService.findByStatus(status));
+    public ResponseEntity<Page<SessionResponseDTO>> findByStatus(@PathVariable("status") Status status,
+            @PageableDefault(size = 10, sort = "Status", direction = Sort.Direction.ASC) Pageable pageable) {
+
+        return ResponseEntity.ok(sessionService.findByStatus(status, pageable));
     }
 
     @GetMapping("/sessionType/{session_type}")
-    public ResponseEntity<List<SessionResponseDTO>> findBySessionType(
-            @PathVariable("session_type") SessionType sessionType) {
-        return ResponseEntity.ok(sessionService.findBySessionType(sessionType));
+    public ResponseEntity<Page<SessionResponseDTO>> findBySessionType(
+            @PathVariable("session_type") SessionType sessionType,
+            @PageableDefault(size = 10, sort = "sessionType", direction = Sort.Direction.ASC) Pageable pageable) {
+
+        return ResponseEntity.ok(sessionService.findBySessionType(sessionType, pageable));
 
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<List<SessionResponseDTO>> findSessionByPatientName(@PathVariable("name") String name) {
-        return ResponseEntity.ok(sessionService.findSessionByName(name));
+    public ResponseEntity<Page<SessionResponseDTO>> findSessionByPatientName(@PathVariable("name") String name,
+            @PageableDefault(size = 10, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
+
+        return ResponseEntity.ok(sessionService.findSessionByName(name, pageable));
 
     }
 
     @GetMapping("/start/{start}/end/{end}")
-    public ResponseEntity<List<SessionResponseDTO>> findByStartDate(@PathVariable("start") LocalDate start,
-            @PathVariable("end") LocalDate end) {
-        return ResponseEntity.ok(sessionService.findByStartDate(start, end));
+    public ResponseEntity<Page<SessionResponseDTO>> findByStartDate(@PathVariable("start") LocalDate start,
+            @PathVariable("end") LocalDate end,
+            @PageableDefault(size = 10, sort = "startDate", direction = Sort.Direction.ASC) Pageable pageable) {
+
+        return ResponseEntity.ok(sessionService.findByStartDate(start, end, pageable));
     }
 
 }
