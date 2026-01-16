@@ -6,10 +6,13 @@ import br.healthx.Healthx.paciente.model.entity.Paciente;
 import br.healthx.Healthx.psychologist.model.entity.Psychologist;
 import br.healthx.Healthx.session.model.entity.SessionType;
 import br.healthx.Healthx.session.model.entity.Status;
+import jakarta.validation.constraints.NotNull;
 
-public record SessionRequestDTO(LocalDate startDate,
+public record SessionRequestDTO(@NotNull(message = "The startDate must not be null") LocalDate startDate,
         LocalDate endDate,
-        Paciente patient, String notes, Status status,
-        SessionType sessionType, String sessionComplaint,
-        Psychologist psychologist) {
+        @NotNull(message = "The patient must not be null") Paciente patient, String notes,
+        @NotNull(message = "The session status should not be null") Status status,
+        @NotNull(message = "The sessionType should not be null") SessionType sessionType,
+        @NotNull(message = "The session complaint should not be null") String sessionComplaint,
+        @NotNull(message = "The field psychologist must not be blank") Psychologist psychologist) {
 }
