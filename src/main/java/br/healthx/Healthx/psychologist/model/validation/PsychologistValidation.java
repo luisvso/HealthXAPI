@@ -22,7 +22,8 @@ public class PsychologistValidation {
 
     public void alreadyExistsPsychologist(PsychologistRequestDTO dto) {
         for (Psychologist psychologist : psychologistRepository.findAll()) {
-            if (dto.email().equals(psychologist.getEmail()) && !dto.CRP().equals(psychologist.getCRP()))
+            if (dto.email().equals(psychologist.getEmail()) && !dto.CRP().equals(psychologist.getCRP())
+                    && !dto.phone().equals(psychologist.getPhone()))
                 throw new PsychologistAlreadyExistsException("This email is already registered");
         }
     }

@@ -32,18 +32,18 @@ public class PsychologistController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable("id") Long id) {
         psychologistService.delete(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PsychologistRequestDTO> update(@PathVariable Long id,
+    public ResponseEntity<PsychologistRequestDTO> update(@PathVariable("id") Long id,
             @RequestBody @Valid PsychologistRequestDTO dto) {
         return ResponseEntity.ok(psychologistService.update(id, dto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PsychologistRequestDTO> findOne(@PathVariable Long id) {
+    public ResponseEntity<PsychologistRequestDTO> findOne(@PathVariable("id") Long id) {
         return ResponseEntity.ok(psychologistService.findOne(id));
     }
 

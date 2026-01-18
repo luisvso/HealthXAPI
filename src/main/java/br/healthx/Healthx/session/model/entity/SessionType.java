@@ -1,5 +1,7 @@
 package br.healthx.Healthx.session.model.entity;
 
 public enum SessionType {
-    PRESENCIAL, ONLINE, HIBRIDO
+    IN_PERSON,
+    ONLINE,
+    HYBRID
 }

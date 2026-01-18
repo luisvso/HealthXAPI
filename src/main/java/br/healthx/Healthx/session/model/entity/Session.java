@@ -2,7 +2,7 @@ package br.healthx.Healthx.session.model.entity;
 
 import java.time.LocalDate;
 
-import br.healthx.Healthx.paciente.model.entity.Paciente;
+import br.healthx.Healthx.paciente.model.entity.Patient;
 import br.healthx.Healthx.psychologist.model.entity.Psychologist;
 import br.healthx.Healthx.session.dto.SessionRequestDTO;
 import jakarta.persistence.Entity;
@@ -34,7 +34,7 @@ public class Session {
     @NotNull(message = "The patient must not be null")
     @JoinColumn(name = "paciente_id")
     @ManyToOne
-    private Paciente patient;
+    private Patient patient;
 
     private String notes;
 
