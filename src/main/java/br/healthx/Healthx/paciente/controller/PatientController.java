@@ -1,12 +1,15 @@
 package br.healthx.Healthx.paciente.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
-import java.util.List;
 
 import br.healthx.Healthx.paciente.dto.RequestPatientDTO;
 import br.healthx.Healthx.paciente.dto.ResponsePatientDTO;
@@ -53,13 +56,15 @@ public class PatientController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ResponsePatientDTO>> findAll() {
-        return ResponseEntity.ok(patientService.findAll());
+    public ResponseEntity<Page<ResponsePatientDTO>> findAll(
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        return ResponseEntity.ok(patientService.findAll(pageable));
     }
 
     @GetMapping("/name/{name}")
-    public ResponseEntity<List<ResponsePatientDTO>> findName(@PathVariable("name") String name) {
-        return ResponseEntity.ok(patientService.findByName(name));
+    public ResponseEntity<Page<ResponsePatientDTO>> findName(@PathVariable("name") String name,
+            @PageableDefault(size = 10, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
+        return ResponseEntity.ok(patientService.findByName(name, pageable));
     }
 
 }
