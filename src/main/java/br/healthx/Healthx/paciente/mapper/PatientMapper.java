@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import br.healthx.Healthx.paciente.dto.RequestPatientDTO;
@@ -47,10 +49,9 @@ public class PatientMapper {
         return dto;
     }
 
-    public List<ResponsePatientDTO> toResponseList(List<Patient> patients) {
-        List<ResponsePatientDTO> responseList = patients.stream()
-                .map(this::entityToResponse)
-                .collect(Collectors.toList());
+    public Page<ResponsePatientDTO> toResponseList(Page<Patient> patients) {
+        Page<ResponsePatientDTO> responseList = patients
+                .map(this::entityToResponse);
 
         return responseList;
     }

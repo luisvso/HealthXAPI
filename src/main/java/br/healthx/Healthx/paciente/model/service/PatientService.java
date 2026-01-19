@@ -2,7 +2,10 @@ package br.healthx.Healthx.paciente.model.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.healthx.Healthx.paciente.dto.RequestPatientDTO;
 import br.healthx.Healthx.paciente.dto.ResponsePatientDTO;
@@ -26,6 +29,7 @@ public class PatientService {
     }
 
     /// method for creating Paciente
+    @Transactional(timeout = 30)
     public ResponsePatientDTO create(RequestPatientDTO dto) {
         patientValidation.validatingPatient(dto);
         Patient paciente = patientMapper.toEntity(dto);
@@ -35,11 +39,13 @@ public class PatientService {
 
     }
 
+    @Transactional(timeout = 30)
     public void delete(Long id) {
         patientValidation.existId(id);
         patientRepository.deleteById(id);
     }
 
+    @Transactional(timeout = 30)
     public ResponsePatientDTO update(Long id, RequestPatientDTO dto) {
         Patient patient = patientRepository.findById(id).get();
 
@@ -57,16 +63,19 @@ public class PatientService {
 
     }
 
+    @Transactional(readOnly = true, timeout = 15)
     public ResponsePatientDTO findById(Long id) {
         patientValidation.existId(id);
         return patientMapper.entityToResponse(patientRepository.findById(id).get());
     }
 
-    public List<ResponsePatientDTO> findByName(String name) {
-        return patientMapper.toResponseList(patientRepository.findByNameContainingIgnoreCase(name));
+    @Transactional(readOnly = true, timeout = 15)
+    public Page<ResponsePatientDTO> findByName(String name, Pageable pageable) {
+        return patientMapper.toResponseList(patientRepository.findByNameContainingIgnoreCase(name, pageable));
     }
 
-    public List<ResponsePatientDTO> findAll() {
-        return patientMapper.toResponseList(patientRepository.findAll());
+    @Transactional(readOnly = true, timeout = 15)
+    public Page<ResponsePatientDTO> findAll(Pageable pageable) {
+        return patientMapper.toResponseList(patientRepository.findAll(pageable));
     }
 }
