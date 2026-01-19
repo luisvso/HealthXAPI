@@ -12,6 +12,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import br.healthx.Healthx.paciente.model.exception.EmailAlreadyExistsException;
+import br.healthx.Healthx.paciente.model.exception.InvalidBirthDateException;
+import br.healthx.Healthx.paciente.model.exception.PacienteNotFoundException;
 import br.healthx.Healthx.session.dto.ErrorResponse;
 import br.healthx.Healthx.session.model.exception.ResourceNotFoundException;
 import br.healthx.Healthx.session.model.exception.SessionDateException;
@@ -146,6 +149,63 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 
+    }
+
+    // Exception, IllegalArgumentException, ConstraintViolationException,
+    // DataIntegrityViolationException, MethodArgumentNotValidException,
+    // ResourceNotFoundException, SessionDateException ,
+    // EmailAlreadyExistsException, InvalidBirthDateException,
+    // PacienteNotFoundException
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleEmailExists(EmailAlreadyExistsException ex,
+            HttpServletRequest httpServletRequest) {
+
+        log.error("Exception caught {} ", ex.getMessage());
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                "Intrernal Server Error this email is already registered",
+                httpServletRequest.getRequestURI(),
+                Collections.singletonMap(" ", ex.getMessage()),
+                LocalDateTime.now());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(InvalidBirthDateException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidBirthDate(InvalidBirthDateException ex,
+            HttpServletRequest httpServletRequest) {
+
+        log.error("Exception caught {} ", ex.getMessage());
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                "Bad request this birth date is invalid, please verify",
+                httpServletRequest.getRequestURI(),
+                Collections.singletonMap(" ", ex.getMessage()),
+                LocalDateTime.now());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PacienteNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handlePacienteNotFound(PacienteNotFoundException ex,
+            HttpServletRequest httpServletRequest) {
+
+        log.error("Exception caught : {} of name : {}", ex.getMessage(), ex.getClass());
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                "Internal server error, this patient does not exit",
+                httpServletRequest.getRequestURI(),
+                Collections.singletonMap(" ", ex.getMessage()),
+                LocalDateTime.now());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }
