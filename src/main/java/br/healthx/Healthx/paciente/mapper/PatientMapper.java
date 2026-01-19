@@ -1,11 +1,8 @@
 package br.healthx.Healthx.paciente.mapper;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import br.healthx.Healthx.paciente.dto.RequestPatientDTO;
