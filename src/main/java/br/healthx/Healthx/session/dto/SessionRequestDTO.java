@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record SessionRequestDTO(@NotNull(message = "The startDate must not be null") LocalDate startDate,
         LocalDate endDate,
-        @NotNull(message = "The patient must not be null") Paciente patient, String notes,
+        @NotNull(message = "The patient must not be null") Patient patient, String notes,
         @NotNull(message = "The session status should not be null") Status status,
         @NotNull(message = "The sessionType should not be null") SessionType sessionType,
         @NotNull(message = "The session complaint should not be null") String sessionComplaint,
