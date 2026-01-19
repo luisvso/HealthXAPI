@@ -1,4 +1,4 @@
-package br.healthx.Healthx.session.handler;
+package br.healthx.Healthx.handler;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
