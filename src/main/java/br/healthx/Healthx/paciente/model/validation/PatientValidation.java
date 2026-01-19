@@ -27,8 +27,8 @@ public class PatientValidation {
     }
 
     public void existId(Long id) {
-        if (id == null) {
-            throw new PacienteNotFoundException("This Patient does not exist");
+        if (patientRepository.findById(id).isEmpty()) {
+            throw new PacienteNotFoundException(id);
         }
     }
 
@@ -37,7 +37,7 @@ public class PatientValidation {
     }
 
     public void invalidBirthDate(LocalDate date) {
-        if (date.getYear() >= LocalDate.now().getYear()) {
+        if (date.getYear() > LocalDate.now().getYear()) {
             throw new InvalidBirthDateException(date);
         }
     }
