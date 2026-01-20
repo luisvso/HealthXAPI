@@ -22,20 +22,20 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Your birth date should not be null")
+    @NotNull(message = "Your email should not be null")
     @Email(message = "Invalid Email format")
     private String email;
 
-    @NotNull(message = "Your name should not be null")
+    @NotNull(message = "Your birthDate should not be null")
     private LocalDate birthDate;
 
-    @NotNull(message = "This field should not be null")
+    @NotNull(message = "Your name should not be null")
     private String name;
 
     @NotNull(message = "This filed should not be null")
     private Gender gender;
 
-    @NotNull
+    @NotNull(message = "The phone should not be null")
     @Size(max = 15, message = "The phone number must hava at most 15 digits")
     private String phone;
 
