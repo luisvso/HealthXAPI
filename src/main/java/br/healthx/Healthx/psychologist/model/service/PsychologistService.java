@@ -3,6 +3,7 @@ package br.healthx.Healthx.psychologist.model.service;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,8 +73,8 @@ public class PsychologistService {
     }
 
     @Transactional(readOnly = true, timeout = 15)
-    public List<PsychologistRequestDTO> listAll() {
-        return psychologistMapper.listToPsychologistDTO(psychologistRepository.findAll());
+    public Page<PsychologistRequestDTO> listAll(Pageable pageable) {
+        return psychologistMapper.listToPsychologistDTO(psychologistRepository.findAll(pageable));
     }
 
 }
