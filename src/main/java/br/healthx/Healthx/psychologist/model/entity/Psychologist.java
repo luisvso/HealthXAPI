@@ -23,7 +23,7 @@ public class Psychologist {
     @NotBlank(message = "Your Email must not be blank")
     private String email;
 
-    @NotBlank(message = "The Phone")
+    @NotBlank(message = "The Phone must not be null")
     private String phone;
 
     @NotBlank(message = "The name must not be blank")

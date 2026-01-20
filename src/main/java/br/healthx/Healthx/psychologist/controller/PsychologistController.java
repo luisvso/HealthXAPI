@@ -1,5 +1,9 @@
 package br.healthx.Healthx.psychologist.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -10,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import java.util.List;
 
 import br.healthx.Healthx.psychologist.dto.PsychologistRequestDTO;
 import br.healthx.Healthx.psychologist.model.service.PsychologistService;
@@ -48,8 +51,9 @@ public class PsychologistController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PsychologistRequestDTO>> findAll() {
-        return ResponseEntity.ok(psychologistService.listAll());
+    public ResponseEntity<Page<PsychologistRequestDTO>> findAll(
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        return ResponseEntity.ok(psychologistService.listAll(pageable));
     }
 
 }

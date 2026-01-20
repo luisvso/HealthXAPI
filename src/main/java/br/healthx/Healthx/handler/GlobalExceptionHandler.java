@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties.Http;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +13,13 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.sun.java.swing.plaf.motif.resources.motif_de;
+
 import br.healthx.Healthx.paciente.model.exception.EmailAlreadyExistsException;
 import br.healthx.Healthx.paciente.model.exception.InvalidBirthDateException;
 import br.healthx.Healthx.paciente.model.exception.PacienteNotFoundException;
+import br.healthx.Healthx.psychologist.model.exception.PsychologistAlreadyExistsException;
+import br.healthx.Healthx.psychologist.model.exception.PsychologistNotFoundException;
 import br.healthx.Healthx.session.dto.ErrorResponse;
 import br.healthx.Healthx.session.model.exception.ResourceNotFoundException;
 import br.healthx.Healthx.session.model.exception.SessionDateException;
@@ -201,6 +206,36 @@ public class GlobalExceptionHandler {
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
                 "Internal server error, this patient does not exit",
+                httpServletRequest.getRequestURI(),
+                Collections.singletonMap(" ", ex.getMessage()),
+                LocalDateTime.now());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(PsychologistAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handlePsychologistAlreadyExist(PsychologistAlreadyExistsException psyException,
+            HttpServletRequest httpServletRequest) {
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                "This psychologist already exists",
+                httpServletRequest.getRequestURI(),
+                Collections.singletonMap(" ", psyException.getMessage()),
+                LocalDateTime.now());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(PsychologistNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handlePsychologistNotFound(PsychologistNotFoundException ex,
+            HttpServletRequest httpServletRequest) {
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                "This psychologist was not found",
                 httpServletRequest.getRequestURI(),
                 Collections.singletonMap(" ", ex.getMessage()),
                 LocalDateTime.now());

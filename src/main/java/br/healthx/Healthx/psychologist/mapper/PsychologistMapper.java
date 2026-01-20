@@ -3,6 +3,7 @@ package br.healthx.Healthx.psychologist.mapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import br.healthx.Healthx.psychologist.dto.PsychologistRequestDTO;
@@ -32,10 +33,8 @@ public class PsychologistMapper {
         return psychologist;
     }
 
-    public List<PsychologistRequestDTO> listToPsychologistDTO(List<Psychologist> psychologists) {
-        List<PsychologistRequestDTO> psychologistList = psychologists.stream()
-                .map(this::psychologistToDTO)
-                .collect(Collectors.toList());
+    public Page<PsychologistRequestDTO> listToPsychologistDTO(Page<Psychologist> psychologists) {
+        Page<PsychologistRequestDTO> psychologistList = psychologists.map(this::psychologistToDTO);
 
         return psychologistList;
     }
