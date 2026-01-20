@@ -12,6 +12,7 @@ import br.healthx.Healthx.psychologist.mapper.PsychologistMapper;
 import br.healthx.Healthx.psychologist.model.entity.Psychologist;
 import br.healthx.Healthx.psychologist.model.repository.PsychologistRepository;
 import br.healthx.Healthx.psychologist.model.validation.PsychologistValidation;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
@@ -22,6 +23,7 @@ import br.healthx.Healthx.psychologist.model.validation.PsychologistValidation;
  *
  */
 @Service
+@Slf4j
 public class PsychologistService {
 
     private final PsychologistRepository psychologistRepository;
@@ -37,6 +39,8 @@ public class PsychologistService {
 
     @Transactional(timeout = 30)
     public PsychologistRequestDTO create(PsychologistRequestDTO dto) {
+        log.info("Trying to initialize the method to create a Psychologist");
+
         psychologistValidation.validatePsychologist(dto);
 
         Psychologist psy = psychologistMapper.dtoToPsychologist(dto);
@@ -48,6 +52,9 @@ public class PsychologistService {
 
     @Transactional(timeout = 30)
     public PsychologistRequestDTO update(Long id, PsychologistRequestDTO dto) {
+
+        log.info("The method that updates the psychologist has started");
+
         psychologistValidation.validatePsychologist(dto);
         Psychologist psy = psychologistRepository.findById(id).get();
 
@@ -63,17 +70,20 @@ public class PsychologistService {
 
     @Transactional(timeout = 30)
     public void delete(Long id) {
+        log.info("The method that delete the user of id: {} was started", id);
         psychologistRepository.deleteById(id);
     }
 
     @Transactional(readOnly = true, timeout = 15)
     public PsychologistRequestDTO findOne(Long id) {
+        log.info("The method that finds a psychologist of id: {} started", id);
         Psychologist psychologist = psychologistRepository.findById(id).get();
         return psychologistMapper.psychologistToDTO(psychologist);
     }
 
     @Transactional(readOnly = true, timeout = 15)
     public Page<PsychologistRequestDTO> listAll(Pageable pageable) {
+        log.info("The method that lists all the psychologists");
         return psychologistMapper.listToPsychologistDTO(psychologistRepository.findAll(pageable));
     }
 
