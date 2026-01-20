@@ -11,8 +11,11 @@ import br.healthx.Healthx.paciente.mapper.PatientMapper;
 import br.healthx.Healthx.paciente.model.entity.Patient;
 import br.healthx.Healthx.paciente.model.repository.PatientRepository;
 import br.healthx.Healthx.paciente.model.validation.PatientValidation;
+import br.healthx.Healthx.session.model.exception.ResourceNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class PatientService {
 
     private final PatientRepository patientRepository;
@@ -45,7 +48,8 @@ public class PatientService {
 
     @Transactional(timeout = 30)
     public ResponsePatientDTO update(Long id, RequestPatientDTO dto) {
-        Patient patient = patientRepository.findById(id).get();
+        Patient patient = patientRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("The Patient of id: " + id + " was not found"));
 
         patient.setName(dto.name());
         patient.setEmail(dto.email());
@@ -64,7 +68,8 @@ public class PatientService {
     @Transactional(readOnly = true, timeout = 15)
     public ResponsePatientDTO findById(Long id) {
         patientValidation.existId(id);
-        return patientMapper.entityToResponse(patientRepository.findById(id).get());
+        return patientMapper.entityToResponse(patientRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("The patient of id" + id + " was not found")));
     }
 
     @Transactional(readOnly = true, timeout = 15)
