@@ -57,7 +57,7 @@ public class PatientService {
 
     @Transactional(timeout = 30)
     public ResponsePatientDTO update(Long id, RequestPatientDTO dto) {
-        log.info("The method for updating the patient was started");
+        log.info("The method for updating the patient of id {} was started", id);
 
         Patient patient = patientRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("The Patient of id: " + id + " was not found"));
