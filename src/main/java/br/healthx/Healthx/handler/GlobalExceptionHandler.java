@@ -13,7 +13,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.sun.java.swing.plaf.motif.resources.motif_de;
 
 import br.healthx.Healthx.paciente.model.exception.EmailAlreadyExistsException;
 import br.healthx.Healthx.paciente.model.exception.InvalidBirthDateException;
@@ -139,22 +138,22 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception ex, HttpServletRequest httpServletRequest) {
-
-        log.error("Exception caught {} ", ex.getMessage());
-
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
-                "Internal server error",
-                httpServletRequest.getRequestURI(),
-                Collections.singletonMap(" ", ex.getMessage()),
-                LocalDateTime.now());
-
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ErrorResponse> handleException(Exception ex, HttpServletRequest httpServletRequest) {
+//
+//        log.error("Exception caught {} ", ex.getMessage());
+//
+//        ErrorResponse errorResponse = new ErrorResponse(
+//                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+//                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+//                "Internal server error",
+//                httpServletRequest.getRequestURI(),
+//                Collections.singletonMap(" ", ex.getMessage()),
+//                LocalDateTime.now());
+//
+//        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+//
+//    }
 
     // Exception, IllegalArgumentException, ConstraintViolationException,
     // DataIntegrityViolationException, MethodArgumentNotValidException,

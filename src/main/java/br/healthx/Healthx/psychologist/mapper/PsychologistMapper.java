@@ -18,9 +18,10 @@ public class PsychologistMapper {
         psychologist2.setCRP(psychologist.getCRP());
         psychologist2.setName(psychologist.getName());
         psychologist2.setPhone(psychologist.getPhone());
+        psychologist2.setUser(psychologist.getUser());
 
         return new PsychologistRequestDTO(psychologist2.getEmail(), psychologist2.getPhone(), psychologist2.getName(),
-                psychologist2.getCRP());
+                psychologist2.getCRP(), psychologist2.getUser());
     }
 
     public Psychologist dtoToPsychologist(PsychologistRequestDTO dto) {
@@ -29,6 +30,7 @@ public class PsychologistMapper {
         psychologist.setEmail(dto.email());
         psychologist.setName(dto.name());
         psychologist.setPhone(dto.phone());
+        psychologist.setUser(dto.user());
 
         return psychologist;
     }

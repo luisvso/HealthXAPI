@@ -1,7 +1,10 @@
 package br.healthx.Healthx.psychologist.model.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import br.healthx.Healthx.User.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,11 +33,14 @@ public class PsychologistService {
     private final PsychologistMapper psychologistMapper;
     private final PsychologistValidation psychologistValidation;
 
+    private final UserService userService;
+
     public PsychologistService(PsychologistRepository psychologistRepository, PsychologistMapper psychologistMapper,
-            PsychologistValidation psychologistValidation) {
+            PsychologistValidation psychologistValidation, UserService userService) {
         this.psychologistRepository = psychologistRepository;
         this.psychologistMapper = psychologistMapper;
         this.psychologistValidation = psychologistValidation;
+        this.userService = userService;
     }
 
     @Transactional(timeout = 30)
@@ -44,6 +50,8 @@ public class PsychologistService {
         psychologistValidation.validatePsychologist(dto);
 
         Psychologist psy = psychologistMapper.dtoToPsychologist(dto);
+
+        psy.setUser(userService.creteUser(dto));
 
         psychologistRepository.save(psy);
 
@@ -62,6 +70,7 @@ public class PsychologistService {
         psy.setEmail(dto.email());
         psy.setName(dto.name());
         psy.setPhone(dto.phone());
+        psy.setUser(dto.user());
 
         psy = psychologistRepository.save(psy);
 
@@ -85,6 +94,11 @@ public class PsychologistService {
     public Page<PsychologistRequestDTO> listAll(Pageable pageable) {
         log.info("The method that lists all the psychologists");
         return psychologistMapper.listToPsychologistDTO(psychologistRepository.findAll(pageable));
+    }
+
+    @Transactional(readOnly = true, timeout = 15)
+    public Optional<Psychologist> findByUserId(Long userId) {
+        return psychologistRepository.findByUserId(userId);
     }
 
 }
