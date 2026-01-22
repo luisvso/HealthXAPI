@@ -4,7 +4,7 @@ API REST para gerenciamento de pacientes, psicólogos e sessões de terapia, des
 
 Este projeto faz parte do ecossistema HealthX, cujo objetivo é facilitar o controle de atendimentos terapêuticos por meio de uma aplicação moderna, escalável e bem estruturada.
 
----- Visão Geral
+🧠 Visão Geral
 A HealthX API é responsável por:
 Cadastro e autenticação de psicólogos
 Cadastro e gerenciamento de pacientes
@@ -12,7 +12,7 @@ Criação e controle de sessões de terapia
 Aplicação de regras de negócio
 Exposição de endpoints REST para consumo por um frontend (ex: Angular)
 
---- Tecnologias Utilizadas
+🚀 Tecnologias Utilizadas
 Java
 Spring Boot
 Spring Web (REST APIs)
@@ -23,7 +23,7 @@ Banco de Dados Relacional (ex: PostgreSQL)
 Maven
 
 
---- Segurança
+🔐 Segurança
 
 A API utiliza Spring Security, garantindo:
 
@@ -35,19 +35,19 @@ Separação de responsabilidades entre usuários
 
 Apenas usuários autenticados podem acessar recursos protegidos.
 
---- Principais Funcionalidades
-- Psicólogos
+📚 Principais Funcionalidades
+👩‍⚕️ Psicólogos
 Cadastro
 Login
 Atualização de dados
 
-- Pacientes
+🧑 Pacientes
 Cadastro
 Listagem
 Atualização
 Remoção
 
-- Sessões de Terapia
+📅 Sessões de Terapia
 Criação de sessão
 Associação entre psicólogo e paciente
 
