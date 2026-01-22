@@ -53,4 +53,11 @@ Associação entre psicólogo e paciente
 
 Listagem de sessões
 
+
+📈 Próximas Melhorias
+Integração com Swagger (OpenAPI)
+Logs estruturados
+Monitoramento e métricas
+Deploy em ambiente cloud
+
 Atualização e cancelamento
