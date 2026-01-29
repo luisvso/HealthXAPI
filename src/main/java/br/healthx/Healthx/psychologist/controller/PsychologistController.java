@@ -18,12 +18,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import br.healthx.Healthx.psychologist.dto.PsychologistRequestDTO;
 import br.healthx.Healthx.psychologist.model.service.PsychologistService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
-@Controller
+@RestController
+@Tag(name = "Psychologist", description = "Managment of Psychologists")
 @RequestMapping("api/psychologist")
 public class PsychologistController {
 
@@ -36,6 +40,7 @@ public class PsychologistController {
     }
 
     @PostMapping
+    @Operation(summary = "Create psycholgoists", description = "Creates a new psychgologist that it's not registered on the database")
     public ResponseEntity<PsychologistRequestDTO> create(@RequestBody @Valid PsychologistRequestDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(psychologistService.create(dto));
     }
@@ -71,6 +76,5 @@ public class PsychologistController {
 
         return ResponseEntity.ok(psychologistMapper.psychologistToDTO(psychologist));
     }
-
 
 }
