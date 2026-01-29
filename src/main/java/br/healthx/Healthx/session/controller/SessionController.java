@@ -22,9 +22,12 @@ import br.healthx.Healthx.session.dto.SessionResponseDTO;
 import br.healthx.Healthx.session.model.entity.SessionType;
 import br.healthx.Healthx.session.model.entity.Status;
 import br.healthx.Healthx.session.model.service.SessionService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
+@Tag(name = "Session", description = "This is the session endpoints for managment of sessions")
 @RequestMapping("api/session")
 public class SessionController {
 
@@ -35,38 +38,40 @@ public class SessionController {
     }
 
     @PostMapping
+    @Operation(summary = "Create a Session", description = "Creates a session one at a time, considering time, date and patient conflicts")
     public ResponseEntity<SessionResponseDTO> create(@RequestBody @Valid SessionRequestDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(sessionService.createSession(dto));
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Update a session", description = "Updates a session that it's created on the database passing their Id as parameter, and considering time, date and patient conflict")
     public ResponseEntity<SessionResponseDTO> update(@PathVariable("id") Long id,
             @RequestBody @Valid SessionRequestDTO dto) {
         return ResponseEntity.ok(sessionService.updateSession(id, dto));
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete a session", description = "Deletes a session that is created on the database passing their Id")
     public void delete(@PathVariable("id") Long id) {
         sessionService.deleteSession(id);
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Find one session", description = "Find one Session that is registered on the database using their Id")
     public ResponseEntity<SessionResponseDTO> findOne(@PathVariable("id") Long id) {
         return ResponseEntity.ok(sessionService.findSession(id));
     }
 
     @GetMapping
+    @Operation(summary = "Find all sessions", description = "Find all sessions that have been registered on the database")
     public ResponseEntity<Page<SessionResponseDTO>> findAll(
             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
-
-        // Sort sort = ascending ? Sort.by(sortBy).ascending() :
-        // Sort.by(sortBy).descending();
-        // Pageable pageable = PageRequest.of(page, size, sort);
 
         return ResponseEntity.ok(sessionService.findAllSessions(pageable));
     }
 
     @GetMapping("/status/{status}")
+    @Operation(summary = "Find a session by status", description = "Find a session using their status passing ")
     public ResponseEntity<Page<SessionResponseDTO>> findByStatus(@PathVariable("status") Status status,
             @PageableDefault(size = 10, sort = "Status", direction = Sort.Direction.ASC) Pageable pageable) {
 
@@ -74,6 +79,7 @@ public class SessionController {
     }
 
     @GetMapping("/sessionType/{session_type}")
+    @Operation(summary = "Find a session by Session Type", description = "Find a session using their session Type as parameter")
     public ResponseEntity<Page<SessionResponseDTO>> findBySessionType(
             @PathVariable("session_type") SessionType sessionType,
             @PageableDefault(size = 10, sort = "sessionType", direction = Sort.Direction.ASC) Pageable pageable) {
@@ -83,6 +89,7 @@ public class SessionController {
     }
 
     @GetMapping("/name/{name}")
+    @Operation(summary = "Find a session by Patient name", description = "Find a session using a patient name that is registered on the patient database as parameter to find a session that has been registered")
     public ResponseEntity<Page<SessionResponseDTO>> findSessionByPatientName(@PathVariable("name") String name,
             @PageableDefault(size = 10, sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
 
@@ -91,6 +98,7 @@ public class SessionController {
     }
 
     @GetMapping("/start/{start}/end/{end}")
+    @Operation(summary = "Find a session by date", description = "Allow to find a session that is between a StartDate and EndDate")
     public ResponseEntity<Page<SessionResponseDTO>> findByStartDate(@PathVariable("start") LocalDate start,
             @PathVariable("end") LocalDate end,
             @PageableDefault(size = 10, sort = "startDate", direction = Sort.Direction.ASC) Pageable pageable) {
