@@ -46,28 +46,33 @@ public class PsychologistController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Deletes a psychologist", description = "Deletes a psychologist that exits on the database")
     public void delete(@PathVariable("id") Long id) {
         psychologistService.delete(id);
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Update a psycholoigst", description = "Update a psychologist that exits on the database, and fields registered by others psychologists are not allowed")
     public ResponseEntity<PsychologistRequestDTO> update(@PathVariable("id") Long id,
             @RequestBody @Valid PsychologistRequestDTO dto) {
         return ResponseEntity.ok(psychologistService.update(id, dto));
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Find one psychologist", description = "Allows to find one psychologist by their Id which it has the type Long")
     public ResponseEntity<PsychologistRequestDTO> findOne(@PathVariable("id") Long id) {
         return ResponseEntity.ok(psychologistService.findOne(id));
     }
 
     @GetMapping
+    @Operation(summary = "Find all the psychologits registered on the system", description = "Find all the psycholoigsts that are registered on the database")
     public ResponseEntity<Page<PsychologistRequestDTO>> findAll(
             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok(psychologistService.listAll(pageable));
     }
 
     @GetMapping("/me")
+    @Operation(summary = "Psychologist see their own profile", description = "Allow the psycholoigst that is autheticate to see their own profile")
     public ResponseEntity<PsychologistRequestDTO> getMyProfile() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
