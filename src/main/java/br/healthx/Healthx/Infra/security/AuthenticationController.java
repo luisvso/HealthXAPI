@@ -1,6 +1,8 @@
 package br.healthx.Healthx.Infra.security;
 
 import br.healthx.Healthx.User.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.antlr.v4.runtime.Token;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("auth")
+@Tag(name = "Authentication", description = "Authentication to garantee the API security")
 public class AuthenticationController {
 
     @Autowired
@@ -27,7 +30,8 @@ public class AuthenticationController {
     TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO dto){
+    @Operation(summary = "Login for Authorize user", description = "After register a user, you can login passing the username and password registered, and then a token will be generated. This token will be used on all your requests from now on with this user")
+    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO dto) {
         var userNamePassword = new UsernamePasswordAuthenticationToken(dto.login(), dto.password());
         var auth = this.authenticationManager.authenticate(userNamePassword);
 
@@ -36,16 +40,19 @@ public class AuthenticationController {
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
-    @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Valid RegisterDTO dto){
-        //if(this.userRepository.findByLogin(dto.login()) != null) return ResponseEntity.badRequest().build();
-        if(this.userRepository.findByLogin(dto.login()).isPresent()) return ResponseEntity.badRequest().build();
+    // @PostMapping("/register")
+    // public ResponseEntity register(@RequestBody @Valid RegisterDTO dto) {
+    // if(this.userRepository.findByLogin(dto.login()) != null) return
+    // ResponseEntity.badRequest().build();
+    // if (this.userRepository.findByLogin(dto.login()).isPresent())
+    // return ResponseEntity.badRequest().build();
 
-        String encryptedPassword = new BCryptPasswordEncoder().encode(dto.password());
-        User user = new User(dto.login(), encryptedPassword, dto.role());
+    // String encryptedPassword = new
+    // BCryptPasswordEncoder().encode(dto.password());
+    // User user = new User(dto.login(), encryptedPassword, dto.role());
 
-        this.userRepository.save(user);
+    // this.userRepository.save(user);
 
-        return ResponseEntity.ok().build();
-    }
+    // return ResponseEntity.ok().build();
+    // }
 }
