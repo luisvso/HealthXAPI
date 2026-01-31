@@ -1,15 +1,14 @@
 package br.healthx.Healthx.psychologist.model.service;
 
-import java.util.List;
 import java.util.Optional;
 
-import br.healthx.Healthx.User.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.healthx.Healthx.User.User;
+import br.healthx.Healthx.User.UserService;
 import br.healthx.Healthx.psychologist.dto.PsychologistRequestDTO;
 import br.healthx.Healthx.psychologist.mapper.PsychologistMapper;
 import br.healthx.Healthx.psychologist.model.entity.Psychologist;
@@ -51,7 +50,10 @@ public class PsychologistService {
 
         Psychologist psy = psychologistMapper.dtoToPsychologist(dto);
 
-        psy.setUser(userService.creteUser(dto));
+        User user = userService.creteUser(dto);
+        psy.setLogin(user.getLogin());
+        psy.setPassword(user.getPassword());
+        psy.setRole(user.getRole());
 
         psychologistRepository.save(psy);
 
@@ -70,7 +72,9 @@ public class PsychologistService {
         psy.setEmail(dto.email());
         psy.setName(dto.name());
         psy.setPhone(dto.phone());
-        psy.setUser(dto.user());
+        psy.setLogin(dto.login());
+        psy.setPassword(dto.password());
+        psy.setRole(dto.role());
 
         psy = psychologistRepository.save(psy);
 
@@ -96,9 +100,9 @@ public class PsychologistService {
         return psychologistMapper.listToPsychologistDTO(psychologistRepository.findAll(pageable));
     }
 
-    @Transactional(readOnly = true, timeout = 15)
-    public Optional<Psychologist> findByUserId(Long userId) {
-        return psychologistRepository.findByUserId(userId);
-    }
+    // @Transactional(readOnly = true, timeout = 15)
+    // public Optional<Psychologist> findByUserId(Long userId) {
+    //     return psychologistRepository.findByUserId(userId);
+    // }
 
 }

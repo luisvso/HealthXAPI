@@ -1,8 +1,13 @@
 package br.healthx.Healthx.psychologist.model.entity;
 
-import br.healthx.Healthx.User.User;
+import br.healthx.Healthx.User.UserRole;
 import br.healthx.Healthx.psychologist.dto.PsychologistRequestDTO;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -30,8 +35,11 @@ public class Psychologist {
     @NotBlank(message = "The CRP must not be blank")
     private String CRP;
 
-    @OneToOne
-    User user;
+    private String login;
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     public Psychologist() {
     }
@@ -41,7 +49,9 @@ public class Psychologist {
         this.phone = dto.phone();
         this.name = dto.name();
         this.CRP = dto.CRP();
-        this.user = dto.user();
+        this.login = dto.login();
+        this.password = dto.password();
+        this.role = dto.role();
     }
 
 }
