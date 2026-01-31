@@ -1,6 +1,7 @@
 package br.healthx.Healthx.session.model.repository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,4 +22,7 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
     public Page<Session> findByPatient_NameContainingIgnoreCase(String name, Pageable pageable);
 
     public Page<Session> findByStartDateBetween(LocalDate start, LocalDate end, Pageable pageable);
+
+    public List<Session> findByStatusAndStartDate(Status status, LocalDate startDate);
+
 }

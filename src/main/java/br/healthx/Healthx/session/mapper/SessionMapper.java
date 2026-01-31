@@ -21,6 +21,8 @@ public class SessionMapper {
         ss.setSessionType(dto.sessionType());
         ss.setSessionComplaint(dto.sessionComplaint());
         ss.setPsychologist(dto.psychologist());
+        ss.setStartTime(dto.startTime());
+        ss.setEndTime(dto.endTime());
 
         return ss;
     }
@@ -34,6 +36,8 @@ public class SessionMapper {
         session.setSessionType(dto.sessionType());
         session.setStartDate(dto.startDate());
         session.setStatus(dto.status());
+        session.setStartTime(dto.startTime());
+        session.setEndTime(dto.endTime());
 
         return session;
     }
@@ -41,7 +45,7 @@ public class SessionMapper {
     public SessionResponseDTO sessionToDTO(Session ss) {
         SessionResponseDTO sessionResponseDTO = new SessionResponseDTO(ss.getId(), ss.getStartDate(), ss.getEndDate(),
                 ss.getPatient(), ss.getNotes(), ss.getStatus(), ss.getSessionType(), ss.getSessionComplaint(),
-                ss.getPsychologist());
+                ss.getPsychologist(), ss.getStartTime(), ss.getEndTime());
 
         return sessionResponseDTO;
     }
@@ -49,9 +53,6 @@ public class SessionMapper {
     public Page<SessionResponseDTO> sessionToListDTO(Page<Session> sessions) {
 
         return sessions.map(this::sessionToDTO);
-
-        // return sessions.stream()
-        // .map(this::sessionToDTO)
 
     }
 
