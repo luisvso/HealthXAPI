@@ -112,3 +112,19 @@ You should see:
 ```bash
 mvn spring-boot:run
 ```
+
+*Using an IDE (IntelliJ, Eclipse, VS Code):**
+
+Simply run the main application class (the one annotated with `@SpringBootApplication`).
+
+---
+
+### 5️⃣ Verify the application is running
+
+Once the application starts, you should see logs ending with:
+```
+Started HealthXApplication in X.XXX seconds
+```
+
+**Access the application:**
+- **Swagger UI:** http://localhost:8080/swagger-ui.html
