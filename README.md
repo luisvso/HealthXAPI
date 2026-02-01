@@ -9,7 +9,7 @@ to be integrated with frontend applications.
 ## 🚀 Technologies Used
 
 ### Backend
-- Java 21
+- Java 17
 - Spring Boot
 - Spring Web (REST APIs)
 - Spring Data JPA
@@ -37,3 +37,14 @@ to be integrated with frontend applications.
 - Maven
 - PostgreSQL
 - An IDE or terminal
+
+1️⃣ Clone the repository
+
+```
+git clone https://github.com/luisvso/HealthXAPI.git
+```
+
+```
+cd HealthXAPI
+```
+
