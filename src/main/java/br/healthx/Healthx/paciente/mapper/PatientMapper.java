@@ -39,8 +39,9 @@ public class PatientMapper {
         String guardian = patient.getGuardian();
         Race race = patient.getRace();
         LocalDate createAt = patient.getCreateAt();
+        Long patientId = patient.getId();
 
-        ResponsePatientDTO dto = new ResponsePatientDTO(name, birthDate, gender, guardian, race, email,
+        ResponsePatientDTO dto = new ResponsePatientDTO(patientId, name, birthDate, gender, guardian, race, email,
                 phone, createAt);
 
         return dto;
