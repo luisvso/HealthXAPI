@@ -194,3 +194,10 @@ There you can:
 
 
 
+## 👤 Author
+
+**Luis Valdo de Oliveira Sousa Filho**
+
+- LinkedIn: [Linkedin](https://www.linkedin.com/in/luisvaldo/)
+- Email: luisvso.dev@gmail.com
+
