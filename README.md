@@ -127,4 +127,5 @@ Started HealthXApplication in X.XXX seconds
 ```
 
 **Access the application:**
+- **API:** http://localhost:8080
 - **Swagger UI:** http://localhost:8080/swagger-ui.html
