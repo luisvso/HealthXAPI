@@ -8,8 +8,7 @@ import br.healthx.Healthx.psychologist.model.entity.Psychologist;
 import br.healthx.Healthx.session.model.entity.SessionType;
 import br.healthx.Healthx.session.model.entity.Status;
 
-public record SessionResponseDTO(Long id, LocalDate startDate,
-        LocalDate endDate,
+public record SessionResponseDTO(Long id, LocalDate date,
         Patient patient, String notes, Status status,
         SessionType sessionType, String sessionComplaint,
         Psychologist psychologist,
