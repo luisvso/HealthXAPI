@@ -1,5 +1,11 @@
 # HealthX API – Therapy Session Management System
 
+![Java](https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=java)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen?style=for-the-badge&logo=spring)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-blue?style=for-the-badge&logo=postgresql)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
 
 REST API developed in Java with Spring Boot for managing psychologists,
 patients, and therapy sessions. The project was built with a focus on security,
@@ -185,4 +191,6 @@ There you can:
 - Test the API directly in the browser
 - See request/response schemas
 - Understand authentication requirements
+
+
 
