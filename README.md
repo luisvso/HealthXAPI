@@ -5,3 +5,26 @@ REST API developed in Java with Spring Boot for managing psychologists,
 patients, and therapy sessions. The project was built with a focus on security,
 code organization, and software engineering best practices, and is designed
 to be integrated with frontend applications.
+
+## 🚀 Technologies Used
+
+### Backend
+- Java 21
+- Spring Boot
+- Spring Web (REST APIs)
+- Spring Data JPA
+- Hibernate
+
+### Security
+- Spring Security
+- Authentication and authorization with protected endpoints
+
+### Database
+- PostgreSQL
+
+### Documentation
+- Swagger / OpenAPI
+
+### Build & Tools
+- Maven
+- Docker
