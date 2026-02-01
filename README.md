@@ -29,7 +29,7 @@ to be integrated with frontend applications.
 - Maven
 - Docker
 
-## 🚀 How to Run the Project (Without Docker)
+## 🚀 How to Run the Project
 
 ### Prerequisites
 
@@ -43,8 +43,28 @@ to be integrated with frontend applications.
 ```
 git clone https://github.com/luisvso/HealthXAPI.git
 ```
-
 ```
 cd HealthXAPI
 ```
+## 
+After cloning the repository, the application must be configured using environment variables.
+
+2️⃣ Configure environment variables
+
+A .env_template file is provided in the root of the project.
+
+Rename it to .env:
+
+```
+mv .env_template .env
+```
+
+Then, open the .env file and fill in the required values:
+```
+POSTGRES_USER=your_postgres_user
+POSTGRES_PASSWORD=your_postgres_password
+POSTGRES_DB=healthx
+JWT_SECRET=your_jwt_secret
+```
+
 
