@@ -89,4 +89,26 @@ JWT_SECRET=your_jwt_secret_key_minimum_256_bits_recommended
 ```
 - For production, consider using environment-specific secrets management
 
+### 3️⃣ Start the database
 
+Start PostgreSQL and PgAdmin with Docker Compose:
+```bash
+docker-compose up -d
+```
+
+**Verify the containers are running:**
+```bash
+docker-compose ps
+```
+
+You should see:
+- `healthx-db` - PostgreSQL (port 5432)
+- `healthx-pgadmin` - PgAdmin (port 5050)
+
+### 4️⃣ Run the Spring Boot application
+
+####  Using Terminal
+
+```bash
+mvn spring-boot:run
+```
