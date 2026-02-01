@@ -29,3 +29,11 @@ to be integrated with frontend applications.
 - Maven
 - Docker
 
+## 🚀 How to Run the Project (Without Docker)
+
+### Prerequisites
+
+- Java 17+
+- Maven
+- PostgreSQL
+- An IDE or terminal
