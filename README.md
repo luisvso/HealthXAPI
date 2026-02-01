@@ -178,3 +178,11 @@ Started HealthXApplication in X.XXX seconds
 **Access the application:**
 - **API:** http://localhost:8080
 - **Swagger UI:** http://localhost:8080/swagger-ui.html
+<img width="1894" height="1017" alt="Screenshot From 2026-02-01 16-33-25" src="https://github.com/user-attachments/assets/4b64e339-65f2-4321-a6a7-30be6cd214ca" />
+
+There you can:
+- View all available endpoints
+- Test the API directly in the browser
+- See request/response schemas
+- Understand authentication requirements
+
