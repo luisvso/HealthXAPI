@@ -1,6 +1,7 @@
 package br.healthx.Healthx.session.model.entity;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import br.healthx.Healthx.paciente.model.entity.Patient;
 import br.healthx.Healthx.psychologist.model.entity.Psychologist;
@@ -26,10 +27,8 @@ public class Session {
     @Id
     private Long id;
 
-    @NotNull(message = "The startDate must not be null")
-    private LocalDate startDate;
-
-    private LocalDate endDate;
+    @NotNull(message = "The Date must not be null")
+    private LocalDate date;
 
     @NotNull(message = "The patient must not be null")
     @JoinColumn(name = "paciente_id")
@@ -54,18 +53,25 @@ public class Session {
     @JoinColumn(name = "psychologist_id")
     private Psychologist psychologist;
 
+    @NotNull(message = "The Start Time should not be null")
+    private LocalTime startTime;
+
+    @NotNull(message = "The endTime should not be null")
+    private LocalTime endTime;
+
     public Session() {
     }
 
     public Session(SessionRequestDTO dto) {
-        this.startDate = dto.startDate();
-        this.endDate = dto.endDate();
+        this.date = dto.date();
         this.patient = dto.patient();
         this.notes = dto.notes();
-        this.status = dto.status();
+        // this.status = dto.status();
         this.sessionType = dto.sessionType();
         this.sessionComplaint = dto.sessionComplaint();
         this.psychologist = dto.psychologist();
+        this.startTime = dto.startTime();
+        this.endTime = dto.endTime();
     }
 
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.healthx.Healthx.session.dto.SessionRequestDTO;
 import br.healthx.Healthx.session.dto.SessionResponseDTO;
+import br.healthx.Healthx.session.dto.SessionUpdateDTO;
 import br.healthx.Healthx.session.model.entity.SessionType;
 import br.healthx.Healthx.session.model.entity.Status;
 import br.healthx.Healthx.session.model.service.SessionService;
@@ -46,7 +47,7 @@ public class SessionController {
     @PutMapping("/{id}")
     @Operation(summary = "Update a session", description = "Updates a session that it's created on the database passing their Id as parameter, and considering time, date and patient conflict")
     public ResponseEntity<SessionResponseDTO> update(@PathVariable("id") Long id,
-            @RequestBody @Valid SessionRequestDTO dto) {
+            @RequestBody @Valid SessionUpdateDTO dto) {
         return ResponseEntity.ok(sessionService.updateSession(id, dto));
     }
 
@@ -101,9 +102,9 @@ public class SessionController {
     @Operation(summary = "Find a session by date", description = "Allow to find a session that is between a StartDate and EndDate")
     public ResponseEntity<Page<SessionResponseDTO>> findByStartDate(@PathVariable("start") LocalDate start,
             @PathVariable("end") LocalDate end,
-            @PageableDefault(size = 10, sort = "startDate", direction = Sort.Direction.ASC) Pageable pageable) {
+            @PageableDefault(size = 10, sort = "date", direction = Sort.Direction.ASC) Pageable pageable) {
 
-        return ResponseEntity.ok(sessionService.findByStartDate(start, end, pageable));
+        return ResponseEntity.ok(sessionService.findByDate(start, pageable));
     }
 
 }

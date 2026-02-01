@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 
-public record ResponsePatientDTO(
+public record ResponsePatientDTO(Long id,
         @NotNull(message = "Your name should not be null") String name,
         @NotNull(message = "Your birthDate should not be null") LocalDate birthDate,
         @NotNull(message = "This filed should not be null") Gender gender,

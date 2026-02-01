@@ -13,7 +13,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-
 import br.healthx.Healthx.paciente.model.exception.EmailAlreadyExistsException;
 import br.healthx.Healthx.paciente.model.exception.InvalidBirthDateException;
 import br.healthx.Healthx.paciente.model.exception.PacienteNotFoundException;
@@ -22,6 +21,7 @@ import br.healthx.Healthx.psychologist.model.exception.PsychologistNotFoundExcep
 import br.healthx.Healthx.session.dto.ErrorResponse;
 import br.healthx.Healthx.session.model.exception.ResourceNotFoundException;
 import br.healthx.Healthx.session.model.exception.SessionDateException;
+import br.healthx.Healthx.session.model.exception.SessionHourException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -138,22 +138,23 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<ErrorResponse> handleException(Exception ex, HttpServletRequest httpServletRequest) {
-//
-//        log.error("Exception caught {} ", ex.getMessage());
-//
-//        ErrorResponse errorResponse = new ErrorResponse(
-//                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-//                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
-//                "Internal server error",
-//                httpServletRequest.getRequestURI(),
-//                Collections.singletonMap(" ", ex.getMessage()),
-//                LocalDateTime.now());
-//
-//        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-//
-//    }
+    // @ExceptionHandler(Exception.class)
+    // public ResponseEntity<ErrorResponse> handleException(Exception ex,
+    // HttpServletRequest httpServletRequest) {
+    //
+    // log.error("Exception caught {} ", ex.getMessage());
+    //
+    // ErrorResponse errorResponse = new ErrorResponse(
+    // HttpStatus.INTERNAL_SERVER_ERROR.value(),
+    // HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+    // "Internal server error",
+    // httpServletRequest.getRequestURI(),
+    // Collections.singletonMap(" ", ex.getMessage()),
+    // LocalDateTime.now());
+    //
+    // return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    //
+    // }
 
     // Exception, IllegalArgumentException, ConstraintViolationException,
     // DataIntegrityViolationException, MethodArgumentNotValidException,
@@ -240,6 +241,22 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now());
 
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(SessionHourException.class)
+    public ResponseEntity<ErrorResponse> handleHourException(SessionHourException exception, HttpServletRequest http) {
+
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                "This is a conflict hour Exception",
+                http.getRequestURI(),
+                Collections.singletonMap(" ", exception.getMessage()),
+                LocalDateTime.now()
+
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
 }

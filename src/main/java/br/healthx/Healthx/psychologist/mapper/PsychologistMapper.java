@@ -1,8 +1,5 @@
 package br.healthx.Healthx.psychologist.mapper;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -18,10 +15,12 @@ public class PsychologistMapper {
         psychologist2.setCRP(psychologist.getCRP());
         psychologist2.setName(psychologist.getName());
         psychologist2.setPhone(psychologist.getPhone());
-        psychologist2.setUser(psychologist.getUser());
+        psychologist2.setLogin(psychologist.getLogin());
+        psychologist2.setPassword(psychologist.getPassword());
+        psychologist2.setRole(psychologist.getRole());
 
         return new PsychologistRequestDTO(psychologist2.getEmail(), psychologist2.getPhone(), psychologist2.getName(),
-                psychologist2.getCRP(), psychologist2.getUser());
+                psychologist2.getCRP(), psychologist2.getLogin(), psychologist2.getPassword(), psychologist2.getRole());
     }
 
     public Psychologist dtoToPsychologist(PsychologistRequestDTO dto) {
@@ -30,7 +29,9 @@ public class PsychologistMapper {
         psychologist.setEmail(dto.email());
         psychologist.setName(dto.name());
         psychologist.setPhone(dto.phone());
-        psychologist.setUser(dto.user());
+        psychologist.setLogin(dto.login());
+        psychologist.setPassword(dto.password());
+        psychologist.setRole(dto.role());
 
         return psychologist;
     }

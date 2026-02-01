@@ -71,15 +71,15 @@ public class PsychologistController {
         return ResponseEntity.ok(psychologistService.listAll(pageable));
     }
 
-    @GetMapping("/me")
-    @Operation(summary = "Psychologist see their own profile", description = "Allow the psycholoigst that is autheticate to see their own profile")
-    public ResponseEntity<PsychologistRequestDTO> getMyProfile() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    // @GetMapping("/me")
+    // @Operation(summary = "Psychologist see their own profile", description = "Allow the psycholoigst that is autheticate to see their own profile")
+    // public ResponseEntity<PsychologistRequestDTO> getMyProfile() {
+    //     User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        Psychologist psychologist = psychologistService.findByUserId(user.getId())
-                .orElseThrow(() -> new RuntimeException("Psychologist not found"));
+    //     Psychologist psychologist = psychologistService.findByUserId(user.getId())
+    //             .orElseThrow(() -> new RuntimeException("Psychologist not found"));
 
-        return ResponseEntity.ok(psychologistMapper.psychologistToDTO(psychologist));
-    }
+    //     return ResponseEntity.ok(psychologistMapper.psychologistToDTO(psychologist));
+    // }
 
 }

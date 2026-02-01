@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface PsychologistRepository extends JpaRepository<Psychologist, Long> {
-    Optional<Psychologist> findByUserId(Long userId);
+    // Optional<Psychologist> findByUser_Id(Long userId);
 }
