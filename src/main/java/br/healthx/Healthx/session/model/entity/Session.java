@@ -27,10 +27,8 @@ public class Session {
     @Id
     private Long id;
 
-    @NotNull(message = "The startDate must not be null")
-    private LocalDate startDate;
-
-    private LocalDate endDate;
+    @NotNull(message = "The Date must not be null")
+    private LocalDate date;
 
     @NotNull(message = "The patient must not be null")
     @JoinColumn(name = "paciente_id")
@@ -65,11 +63,10 @@ public class Session {
     }
 
     public Session(SessionRequestDTO dto) {
-        this.startDate = dto.startDate();
-        this.endDate = dto.endDate();
+        this.date = dto.date();
         this.patient = dto.patient();
         this.notes = dto.notes();
-        this.status = dto.status();
+        // this.status = dto.status();
         this.sessionType = dto.sessionType();
         this.sessionComplaint = dto.sessionComplaint();
         this.psychologist = dto.psychologist();

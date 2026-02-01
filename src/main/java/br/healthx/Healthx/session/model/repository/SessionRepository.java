@@ -21,8 +21,8 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
 
     public Page<Session> findByPatient_NameContainingIgnoreCase(String name, Pageable pageable);
 
-    public Page<Session> findByStartDateBetween(LocalDate start, LocalDate end, Pageable pageable);
+    public Page<Session> findByDate(LocalDate date, Pageable pageable);
 
-    public List<Session> findByStatusAndStartDate(Status status, LocalDate startDate);
+    public List<Session> findByStatusAndDate(Status status, LocalDate date);
 
 }

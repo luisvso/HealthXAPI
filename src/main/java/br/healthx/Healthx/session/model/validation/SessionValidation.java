@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import br.healthx.Healthx.session.dto.SessionRequestDTO;
+import br.healthx.Healthx.session.dto.SessionUpdateDTO;
 import br.healthx.Healthx.session.model.entity.Session;
 import br.healthx.Healthx.session.model.entity.Status;
 import br.healthx.Healthx.session.model.exception.SessionDateException;
@@ -25,13 +26,16 @@ public class SessionValidation {
 
     public void validateSession(SessionRequestDTO dto) {
 
-        List<Session> sessions = sessionRepository.findByStatusAndStartDate(Status.SCHEDULED, dto.startDate());
+        List<Session> sessions = sessionRepository.findByStatusAndDate(Status.SCHEDULED, dto.date());
 
-        validateDates(dto);
         hourValid(dto.startTime(), dto.endTime());
 
         for (Session session : sessions) {
-            hourConflict(dto.startTime(), dto.endTime(), session.getStartTime(), session.getEndTime());
+            if (validateDates(dto, session.getDate())
+                    && hourConflict(dto.startTime(), dto.endTime(), session.getStartTime(), session.getEndTime()))
+                throw new SessionHourException(
+                        "The hour that start at: " + session.getStartTime() + " and end at: " + session.getEndTime()
+                                + " is already alocated");
         }
 
     }
@@ -40,10 +44,8 @@ public class SessionValidation {
         return (id == null);
     }
 
-    private void validateDates(SessionRequestDTO dto) {
-        if (dto.startDate().isBefore(LocalDate.now()) || dto.endDate().isBefore(dto.startDate())) {
-            throw new SessionDateException("The date is invalid");
-        }
+    private boolean validateDates(SessionRequestDTO dto, LocalDate dateAlocated) {
+        return (dto.date().equals(dateAlocated));
     }
 
     public boolean validateFields(Object... objects) {
@@ -54,10 +56,8 @@ public class SessionValidation {
         return false;
     }
 
-    public void hourConflict(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2) {
-        if (start1.isBefore(end2) && end1.isAfter(start2))
-            throw new SessionHourException(
-                    "The hour that start at: " + start1 + " and end at: " + end1 + " is already alocated");
+    public boolean hourConflict(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2) {
+        return (start1.isBefore(end2) && end1.isAfter(start2));
     }
 
     public void hourValid(LocalTime start, LocalTime end) {

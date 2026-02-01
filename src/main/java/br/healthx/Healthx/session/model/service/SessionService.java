@@ -1,6 +1,8 @@
 package br.healthx.Healthx.session.model.service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.data.domain.Page;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.healthx.Healthx.session.dto.SessionRequestDTO;
 import br.healthx.Healthx.session.dto.SessionResponseDTO;
+import br.healthx.Healthx.session.dto.SessionUpdateDTO;
 import br.healthx.Healthx.session.mapper.SessionMapper;
 import br.healthx.Healthx.session.model.entity.Session;
 import br.healthx.Healthx.session.model.entity.SessionType;
@@ -42,6 +45,7 @@ public class SessionService {
         sessionValidation.validateSession(dto);
 
         Session session = sessionMapper.DtoToSession(dto);
+        session.setStatus(Status.SCHEDULED);
 
         sessionRepository.save(session);
 
@@ -51,10 +55,9 @@ public class SessionService {
     }
 
     @Transactional(timeout = 30)
-    public SessionResponseDTO updateSession(Long id, SessionRequestDTO dto) {
+    public SessionResponseDTO updateSession(Long id, SessionUpdateDTO dto) {
         log.info("Trying to update a session of id: {}", id);
 
-        sessionValidation.validateSession(dto);
         Session session = sessionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Session not found with id: " + id));
 
@@ -127,12 +130,23 @@ public class SessionService {
     }
 
     @Transactional(readOnly = true, timeout = 15)
-    public Page<SessionResponseDTO> findByStartDate(LocalDate start, LocalDate end, Pageable pageable) {
-        if (sessionValidation.validateFields(start, end))
+    public Page<SessionResponseDTO> findByDate(LocalDate start, Pageable pageable) {
+        if (sessionValidation.validateFields(start))
             throw new ResourceNotFoundException("This Resource does not exit");
 
-        log.info("Trying to fetch Session that is between the startDate: {} and the endDate {}", start, end);
-        return sessionMapper.sessionToListDTO(sessionRepository.findByStartDateBetween(start, end, pageable));
+        log.info("Trying to fetch Session that has the date: {} ", start);
+        return sessionMapper.sessionToListDTO(sessionRepository.findByDate(start, pageable));
     }
 
+    public void updateStatus() {
+        LocalDate dataAgora = LocalDate.now();
+        LocalTime horaAgora = LocalTime.now();
+
+        List<Session> sessionsDates = sessionRepository.findByStatusAndDate(Status.SCHEDULED, dataAgora);
+
+        for (Session session : sessionsDates) {
+            if (session.getDate().equals(dataAgora) && horaAgora.isAfter(session.getEndTime()))
+                session.setStatus(Status.COMPLETED);
+        }
+    }
 }
