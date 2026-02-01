@@ -5,6 +5,55 @@ REST API developed in Java with Spring Boot for managing psychologists,
 patients, and therapy sessions. The project was built with a focus on security,
 code organization, and software engineering best practices, and is designed
 to be integrated with frontend applications.
+## ✨ Features
+
+### 👨‍⚕️ Psychologist Management
+- Register psychologist profiles with professional information
+- Update psychologist data
+- View all registered psychologists
+- Delete psychologist profiles
+
+### 👤 Patient Management
+- Create and manage patient records
+- Store patient information securely
+- Update patient data
+- View patient history
+- Remove patient records
+
+### 📅 Session Scheduling & Management
+- **Create therapy sessions** between psychologists and patients
+- **Automatic schedule conflict detection** - prevents double-booking
+- Update session details (date, time, status)
+- View all scheduled sessions
+- Cancel or reschedule sessions
+
+### 🔐 Authentication & Authorization
+- **User registration** as a psychologist
+- **Secure login** with JWT token generation
+- **Role-based access control** - different permissions for psychologists
+- **Protected endpoints** - only authenticated users can access sensitive data
+- Token-based session management
+
+### 🛡️ Additional Features
+- **Input validation** - ensures data integrity
+- **Error handling** - clear and informative error messages
+- **Database persistence** with PostgreSQL
+- **RESTful API design** - follows REST best practices
+- **API documentation** with Swagger/OpenAPI
+
+---
+
+## 🎯 Use Cases
+
+1. **Psychologist registers** in the system
+2. **Psychologist logs in** and receives a JWT token
+3. **Psychologist creates patient records**
+4. **Psychologist schedules therapy sessions**
+5. **System validates** that the psychologist is available at the requested time
+6. **System prevents** scheduling conflicts automatically
+7. **Psychologist manages** their sessions and patients
+
+
 
 ## 🚀 Technologies Used
 
